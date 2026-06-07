@@ -1,0 +1,248 @@
+﻿using System;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DataAccessLayer
+{
+    public class clsPeopleDataAccess
+    {
+
+        public static bool GetPersonByID(int PersonID, ref string NationalNo, ref string FirstName, ref string SecondName,
+            ref string ThirdName, ref string LastName, ref DateTime DateOfBirth, ref byte Gender, ref string Address, ref string Phone, ref string Email,
+            ref int NationalityCountryID, ref string ImagePath)
+        {
+
+            bool isFound = false;
+
+            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
+
+            string query = "SELECT * FROM People WHERE PersonID = @PersonID";
+
+            SqlCommand command = new SqlCommand(query, connection);
+
+            command.Parameters.AddWithValue("@PersonID", PersonID);
+
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    isFound = true;
+                    NationalNo = reader["NationalNo"].ToString();
+                    FirstName = reader["FirstName"].ToString();
+                    SecondName = reader["SecondName"].ToString();
+                    ThirdName = reader["ThirdName"] != DBNull.Value ? reader["ThirdName"].ToString() : "";
+                    LastName = reader["LastName"].ToString();
+                    DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
+                    Gender = Convert.ToByte(reader["Gender"]);
+                    Address = reader["Address"].ToString();
+                    Phone = reader["Phone"].ToString();
+                    Email = reader["Email"] != DBNull.Value ? reader["Email"].ToString() : "";
+                    NationalityCountryID = Convert.ToInt32(reader["NationalityCountryID"]);
+                    ImagePath = reader["ImagePath"] != DBNull.Value ? reader["ImagePath"].ToString() : "";
+                }
+                else
+                {
+                    isFound = false;
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                isFound = false;
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return isFound;
+        }
+
+        public static DataTable GetAllContacts()
+        {
+            DataTable dt = new DataTable();
+
+            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
+
+            string query = "SELECT * FROM People";
+
+            SqlCommand command = new SqlCommand(query, connection);
+
+            try
+            {
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    dt.Load(reader);
+                }
+
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return dt;
+
+        }
+
+        public static bool DeletePersonByID(int PersonID)
+        {
+            int rowsAffected = 0;
+            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
+            string query = "DELETE FROM People WHERE PersonID = @PersonID";
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@PersonID", PersonID);
+            try
+            {
+                connection.Open();
+                rowsAffected = command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return (rowsAffected > 0);
+        }
+
+        public static bool UpdatePerson(int PersonID, string NationalNo, string FirstName, string SecondName, string ThirdName,
+            string LastName, DateTime DateOfBirth, byte Gender, string Address, string Phone, string Email,
+            int NationalityCountryID, string ImagePath)
+        {
+            int rowsAffected = 0;
+
+            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
+
+            string query = @"UPDATE People SET FirstName = @FirstName, SecondName = @SecondName, ThirdName = @ThirdName,
+                        LastName = @LastName, DateOfBirth = @DateOfBirth, Gender = @Gender, Address = @Address,
+                        Phone = @Phone, Email = @Email, NationalityCountryID = @NationalityCountryID, ImagePath = @ImagePath
+                        WHERE PersonID = @PersonID";
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@PersonID", PersonID);
+            command.Parameters.AddWithValue("@NationalNo", NationalNo);
+            command.Parameters.AddWithValue("@FirstName", FirstName);
+            command.Parameters.AddWithValue("@SecondName", SecondName);
+            command.Parameters.AddWithValue("@ThirdName", ThirdName == "" ? (object)DBNull.Value : ThirdName);
+            command.Parameters.AddWithValue("@LastName", LastName);
+            command.Parameters.AddWithValue("@DateOfBirth", DateOfBirth);
+            command.Parameters.AddWithValue("@Gender", Gender);
+            command.Parameters.AddWithValue("@Address", Address);
+            command.Parameters.AddWithValue("@Phone", Phone);
+            command.Parameters.AddWithValue("@Email", Email == "" ? (object)DBNull.Value : Email);
+            command.Parameters.AddWithValue("@NationalityCountryID", NationalityCountryID);
+            command.Parameters.AddWithValue("@ImagePath", ImagePath == "" ? (object)DBNull.Value : ImagePath);
+
+            try
+            {
+                connection.Open();
+                rowsAffected = command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return (rowsAffected > 0);
+        }
+        public static int AddPerson(string NationalNo, string FirstName, string SecondName, string ThirdName,
+            string LastName, DateTime DateOfBirth, byte Gender, string Address, string Phone, string Email,
+            int NationalityCountryID, string ImagePath)
+        {
+
+            int PersonID = -1;
+
+            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
+
+            string query = @"INSERT INTO People (NationalNo, FirstName, SecondName, ThirdName, LastName,
+                        DateOfBirth, Gender, Address, Phone, Email,
+                        NationalityCountryID, ImagePath) VALUES (@NationalNo,
+                        @FirstName, @SecondName, @ThirdName, @LastName, @DateOfBirth,
+                        @Gender, @Address, @Phone, @Email, @NationalityCountryID, @ImagePath);
+                        SELECT SCOPE_IDENTITY();";
+
+            SqlCommand command = new SqlCommand(query, connection);
+
+            command.Parameters.AddWithValue("@NationalNo", NationalNo);
+            command.Parameters.AddWithValue("@FirstName", FirstName);
+            command.Parameters.AddWithValue("@SecondName", SecondName);
+            command.Parameters.AddWithValue("@ThirdName", ThirdName == "" ? (object)DBNull.Value : ThirdName);
+            command.Parameters.AddWithValue("@LastName", LastName);
+            command.Parameters.AddWithValue("@Email", Email == "" ? (object)DBNull.Value : Email);
+            command.Parameters.AddWithValue("@DateOfBirth", DateOfBirth);
+            command.Parameters.AddWithValue("@Gender", Gender);
+            command.Parameters.AddWithValue("@Address", Address);
+            command.Parameters.AddWithValue("@Phone", Phone);
+            command.Parameters.AddWithValue("@NationalityCountryID", NationalityCountryID);
+            command.Parameters.AddWithValue("@ImagePath", ImagePath == "" ? (object)DBNull.Value : ImagePath);
+
+            try
+            {
+                connection.Open();
+
+                object result = command.ExecuteScalar();
+
+                if (result != null && int.TryParse(result.ToString(), out int insertedID))
+                {
+                    PersonID = insertedID;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return PersonID;
+        }
+
+        public static bool SearchPersonByNationalNo(string NationalNo)
+        {
+            bool found = false;
+            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
+            string query = "SELECT COUNT(*) FROM People WHERE NationalNo = @NationalNo";
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("NationalNo", NationalNo);
+            try
+            {
+                connection.Open();
+                int count = (int)command.ExecuteScalar();
+                found = (count > 0);
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return found;
+
+        }
+    }
+}
