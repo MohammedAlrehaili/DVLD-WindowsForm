@@ -102,6 +102,11 @@ namespace BussinessLayer
             return null;
         }
 
+        public static DataTable GetPeopleByFilter(string FilterColumn, string FilterValue)
+        {
+            return clsPeopleDataAccess.GetPeopleByFilter(FilterColumn, FilterValue);
+        }
+
         public static DataTable GetAllContacts()
         {
             return clsPeopleDataAccess.GetAllContacts();

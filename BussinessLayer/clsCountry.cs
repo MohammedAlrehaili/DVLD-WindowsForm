@@ -30,5 +30,10 @@ namespace BussinessLayer
         {
             return clsCountryDataAccess.GetAllCountries();
         }
+
+        public static string GetCountryName(int countryID)
+        {
+            return clsCountryDataAccess.GetCountryNameByID(countryID);
+        }
     }
 }

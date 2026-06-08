@@ -11,6 +11,48 @@ namespace DataAccessLayer
     public class clsPeopleDataAccess
     {
 
+        public static DataTable GetPeopleByFilter(string filterColumn, string filterValue)
+        {
+            DataTable dt = new DataTable();
+
+            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
+
+            string query = $"SELECT * FROM People WHERE {filterColumn} LIKE @FilterValue";
+
+            SqlCommand command = new SqlCommand(query, connection);
+
+            switch (filterColumn)
+            {
+                case "PersonID":
+                case "NationalNo":
+                case "Phone":
+                    command.Parameters.AddWithValue("@FilterValue", filterValue);
+                    break;
+                default:
+                    command.Parameters.AddWithValue("@FilterValue", "%" + filterValue + "%");
+                    break;
+            }
+
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                if (reader.HasRows)
+                    dt.Load(reader);
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return dt;
+        }
+
         public static bool GetPersonByID(int PersonID, ref string NationalNo, ref string FirstName, ref string SecondName,
             ref string ThirdName, ref string LastName, ref DateTime DateOfBirth, ref byte Gender, ref string Address, ref string Phone, ref string Email,
             ref int NationalityCountryID, ref string ImagePath)

@@ -11,6 +11,32 @@ namespace DataAccessLayer
     public class clsCountryDataAccess
     {
 
+        public static string GetCountryNameByID(int CountryID)
+        {
+            string countryName = "";
+            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
+            string query = "SELECT CountryName FROM Countries WHERE CountryID = @CountryID";
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@CountryID", CountryID);
+            try
+            {
+                connection.Open();
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    countryName = result.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return countryName;
+        }
+
         public static DataTable GetAllCountries()
         {
             DataTable dt = new DataTable();
