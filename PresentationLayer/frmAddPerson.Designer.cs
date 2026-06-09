@@ -32,6 +32,9 @@
             this.lblHeader = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lbRemove = new System.Windows.Forms.LinkLabel();
+            this.lbSetImage = new System.Windows.Forms.LinkLabel();
+            this.pbPictureProfile = new System.Windows.Forms.PictureBox();
             this.cbCountry = new System.Windows.Forms.ComboBox();
             this.tbPhone = new System.Windows.Forms.TextBox();
             this.dtpDateOfBirth = new System.Windows.Forms.DateTimePicker();
@@ -60,16 +63,12 @@
             this.tbFirstName = new System.Windows.Forms.TextBox();
             this.epNationalNo = new System.Windows.Forms.ErrorProvider(this.components);
             this.epEmail = new System.Windows.Forms.ErrorProvider(this.components);
-            this.pbPictureProfile = new System.Windows.Forms.PictureBox();
-            this.lbSetImage = new System.Windows.Forms.LinkLabel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.lbRemove = new System.Windows.Forms.LinkLabel();
             this.lblPersonID = new System.Windows.Forms.Label();
-            this.lbltest = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPictureProfile)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.epNationalNo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.epEmail)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbPictureProfile)).BeginInit();
             this.SuspendLayout();
             // 
             // lblHeader
@@ -129,6 +128,40 @@
             this.groupBox1.Size = new System.Drawing.Size(855, 367);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
+            // 
+            // lbRemove
+            // 
+            this.lbRemove.AutoSize = true;
+            this.lbRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbRemove.Location = new System.Drawing.Point(714, 278);
+            this.lbRemove.Name = "lbRemove";
+            this.lbRemove.Size = new System.Drawing.Size(68, 20);
+            this.lbRemove.TabIndex = 28;
+            this.lbRemove.TabStop = true;
+            this.lbRemove.Text = "Remove";
+            this.lbRemove.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbRemove_LinkClicked);
+            // 
+            // lbSetImage
+            // 
+            this.lbSetImage.AutoSize = true;
+            this.lbSetImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbSetImage.Location = new System.Drawing.Point(710, 244);
+            this.lbSetImage.Name = "lbSetImage";
+            this.lbSetImage.Size = new System.Drawing.Size(83, 20);
+            this.lbSetImage.TabIndex = 27;
+            this.lbSetImage.TabStop = true;
+            this.lbSetImage.Text = "Set Image";
+            this.lbSetImage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbSetImage_LinkClicked);
+            // 
+            // pbPictureProfile
+            // 
+            this.pbPictureProfile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbPictureProfile.Location = new System.Drawing.Point(654, 69);
+            this.pbPictureProfile.Name = "pbPictureProfile";
+            this.pbPictureProfile.Size = new System.Drawing.Size(195, 172);
+            this.pbPictureProfile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbPictureProfile.TabIndex = 26;
+            this.pbPictureProfile.TabStop = false;
             // 
             // cbCountry
             // 
@@ -374,43 +407,9 @@
             // 
             this.epEmail.ContainerControl = this;
             // 
-            // pbPictureProfile
-            // 
-            this.pbPictureProfile.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbPictureProfile.Location = new System.Drawing.Point(654, 69);
-            this.pbPictureProfile.Name = "pbPictureProfile";
-            this.pbPictureProfile.Size = new System.Drawing.Size(195, 172);
-            this.pbPictureProfile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pbPictureProfile.TabIndex = 26;
-            this.pbPictureProfile.TabStop = false;
-            // 
-            // lbSetImage
-            // 
-            this.lbSetImage.AutoSize = true;
-            this.lbSetImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbSetImage.Location = new System.Drawing.Point(710, 244);
-            this.lbSetImage.Name = "lbSetImage";
-            this.lbSetImage.Size = new System.Drawing.Size(83, 20);
-            this.lbSetImage.TabIndex = 27;
-            this.lbSetImage.TabStop = true;
-            this.lbSetImage.Text = "Set Image";
-            this.lbSetImage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbSetImage_LinkClicked);
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // lbRemove
-            // 
-            this.lbRemove.AutoSize = true;
-            this.lbRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbRemove.Location = new System.Drawing.Point(714, 278);
-            this.lbRemove.Name = "lbRemove";
-            this.lbRemove.Size = new System.Drawing.Size(68, 20);
-            this.lbRemove.TabIndex = 28;
-            this.lbRemove.TabStop = true;
-            this.lbRemove.Text = "Remove";
-            this.lbRemove.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lbRemove_LinkClicked);
             // 
             // lblPersonID
             // 
@@ -421,21 +420,11 @@
             this.lblPersonID.Size = new System.Drawing.Size(0, 24);
             this.lblPersonID.TabIndex = 3;
             // 
-            // lbltest
-            // 
-            this.lbltest.AutoSize = true;
-            this.lbltest.Location = new System.Drawing.Point(618, 27);
-            this.lbltest.Name = "lbltest";
-            this.lbltest.Size = new System.Drawing.Size(24, 13);
-            this.lbltest.TabIndex = 4;
-            this.lbltest.Text = "test";
-            // 
             // frmAddPerson
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(873, 497);
-            this.Controls.Add(this.lbltest);
             this.Controls.Add(this.lblPersonID);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
@@ -445,9 +434,9 @@
             this.Load += new System.EventHandler(this.frmAddPerson_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPictureProfile)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.epNationalNo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.epEmail)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbPictureProfile)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -491,6 +480,5 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.LinkLabel lbRemove;
         private System.Windows.Forms.Label lblPersonID;
-        private System.Windows.Forms.Label lbltest;
     }
 }

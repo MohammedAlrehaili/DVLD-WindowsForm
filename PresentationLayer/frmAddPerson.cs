@@ -17,14 +17,41 @@ namespace PresentationLayer
     public partial class frmAddPerson : Form
     {
 
+        // ----- Private Fields -----
         private int _PersonID;
-        private clsPeople.enMode _Mode = clsPeople.enMode.AddNew;
+        private enMode _Mode = enMode.AddNew;
         private bool _ImageRemoved = false;
         private string _OldImagePath = "";
+
+        // --------------------------
+
+        // ----- Private Methods -----
+        private Image _LoadImage(string path)
+        {
+            using (var temp = Image.FromFile(path))
+            {
+                return new Bitmap(temp);
+            }
+        }
+
+        private void _DeleteOldImage()
+        {
+            if (_OldImagePath != "" && System.IO.File.Exists(_OldImagePath))
+            {
+                // release the image first
+                pbPictureProfile.Image?.Dispose();
+                pbPictureProfile.Image = null;
+
+                System.IO.File.Delete(_OldImagePath);
+            }
+        }
+
+        // --------------------------
+
         public frmAddPerson()
         {
             InitializeComponent();
-            _Mode = clsPeople.enMode.AddNew;
+            _Mode = enMode.AddNew;
         }
 
         public frmAddPerson(int PersonID)
@@ -34,6 +61,53 @@ namespace PresentationLayer
             _Mode = clsPeople.enMode.Update;
         }
 
+        private void frmAddPerson_Load(object sender, EventArgs e)
+        {
+            dtpDateOfBirth.MaxDate = DateTime.Now.AddYears(-18);
+
+            cbCountry.DataSource = clsCountry.GetAllCountries();
+            cbCountry.DisplayMember = "CountryName";
+            cbCountry.ValueMember = "CountryID";
+            cbCountry.SelectedIndex = 0;
+
+            rbMale.Checked = true;
+
+            if (_Mode == enMode.AddNew)
+            {
+                lblPersonID.Text = "";
+                lblHeader.Text = "Add New Person";
+                lbRemove.Visible = false;
+            }
+            else if (_Mode == enMode.Update)
+            {
+                lblHeader.Text = "Update Person";
+
+                clsPeople Person = clsPeople.FindPersonByID(_PersonID);
+                _OldImagePath = Person.ImagePath;
+                lbRemove.Visible = Person.ImagePath != "";
+                if (Person != null)
+                {
+                    lblPersonID.Text = _PersonID.ToString();
+                    tbFirstName.Text = Person.FirstName;
+                    tbSecondName.Text = Person.SecondName;
+                    tbThirdName.Text = Person.ThirdName;
+                    tbLastName.Text = Person.LastName;
+                    tbNationalID.Text = Person.NationalNo;
+                    dtpDateOfBirth.Value = Person.DateOfBirth;
+                    rbMale.Checked = Person.Gender == 0;
+                    rbFemale.Checked = Person.Gender == 1;
+                    tbPhone.Text = Person.Phone;
+                    tbEmail.Text = Person.Email;
+                    cbCountry.SelectedValue = Person.NationalityCountryID;
+                    tbAddress.Text = Person.Address;
+                    pbPictureProfile.Image = Person.ImagePath != ""
+                                            ? _LoadImage(Person.ImagePath)
+                                            : null;
+                }
+            }
+        }
+
+        // ----- Click Methods -----
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -117,106 +191,6 @@ namespace PresentationLayer
             }
         }
 
-        private void tbNationalID_Leave(object sender, EventArgs e)
-        {
-            if (clsPeople.SearchPersonByNationalID(tbNationalID.Text))
-            {
-                epNationalNo.SetError(tbNationalID, "This National ID is Already used!");
-            }
-            else
-            {
-                epNationalNo.SetError(tbNationalID, "");
-            }
-
-        }
-
-        private Image _LoadImage(string path)
-        {
-            using (var temp = Image.FromFile(path))
-            {
-                return new Bitmap(temp);
-            }
-        }
-
-        private void _DeleteOldImage()
-        {
-            if (_OldImagePath != "" && System.IO.File.Exists(_OldImagePath))
-            {
-                // release the image first
-                pbPictureProfile.Image?.Dispose();
-                pbPictureProfile.Image = null;
-
-                System.IO.File.Delete(_OldImagePath);
-            }
-        }
-
-        private void frmAddPerson_Load(object sender, EventArgs e)
-        {
-            dtpDateOfBirth.MaxDate = DateTime.Now.AddYears(-18);
-
-            cbCountry.DataSource = clsCountry.GetAllCountries();
-            cbCountry.DisplayMember = "CountryName";
-            cbCountry.ValueMember = "CountryID";
-            cbCountry.SelectedIndex = 0;
-
-            rbMale.Checked = true;
-
-            if (_Mode == enMode.AddNew)
-            {
-                lblPersonID.Text = "N/A";
-                lblHeader.Text = "Add New Person";
-                lbRemove.Visible = false;
-            }
-            else if (_Mode == enMode.Update)
-            {
-                lblHeader.Text = "Update Person";
-
-                clsPeople Person = clsPeople.FindPersonByID(_PersonID);
-                _OldImagePath = Person.ImagePath;
-                lbRemove.Visible = Person.ImagePath != "";
-                if (Person != null)
-                {
-                    lblPersonID.Text = _PersonID.ToString();
-                    tbFirstName.Text = Person.FirstName;
-                    tbSecondName.Text = Person.SecondName;
-                    tbThirdName.Text = Person.ThirdName;
-                    tbLastName.Text = Person.LastName;
-                    tbNationalID.Text = Person.NationalNo;
-                    dtpDateOfBirth.Value = Person.DateOfBirth;
-                    rbMale.Checked = Person.Gender == 0;
-                    rbFemale.Checked = Person.Gender == 1;
-                    tbPhone.Text = Person.Phone;
-                    tbEmail.Text = Person.Email;
-                    cbCountry.SelectedValue = Person.NationalityCountryID;
-                    tbAddress.Text = Person.Address;
-                    pbPictureProfile.Image = Person.ImagePath != ""
-                                            ? _LoadImage(Person.ImagePath)
-                                            : null;
-                }
-            }
-        }
-
-
-        private void tbEmail_Leave(object sender, EventArgs e)
-        {
-            if (tbEmail.Text != "")
-            {
-                try
-                {
-                    System.Net.Mail.MailAddress mail = new System.Net.Mail.MailAddress(tbEmail.Text);
-                    epEmail.SetError(tbEmail, "");
-                }
-                catch
-                {
-                    epEmail.SetError(tbEmail, "Invalid email format!");
-                }
-            }
-            else
-            {
-                epEmail.SetError(tbEmail, "");
-            }
-        }
-
         private void lbSetImage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             openFileDialog1.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
@@ -237,5 +211,45 @@ namespace PresentationLayer
             _ImageRemoved = true;
             lbRemove.Visible = false;
         }
+
+        // -------------------------
+
+        // Validation Of NationalD Field
+        private void tbNationalID_Leave(object sender, EventArgs e)
+        {
+            if (clsPeople.SearchPersonByNationalID(tbNationalID.Text))
+            {
+                epNationalNo.SetError(tbNationalID, "This National ID is Already used!");
+            }
+            else
+            {
+                epNationalNo.SetError(tbNationalID, "");
+            }
+
+        }
+        // -------------------------
+
+        // ------ Validation Of Email Field -----
+        private void tbEmail_Leave(object sender, EventArgs e)
+        {
+            if (tbEmail.Text != "")
+            {
+                try
+                {
+                    System.Net.Mail.MailAddress mail = new System.Net.Mail.MailAddress(tbEmail.Text);
+                    epEmail.SetError(tbEmail, "");
+                }
+                catch
+                {
+                    epEmail.SetError(tbEmail, "Invalid email format!");
+                }
+            }
+            else
+            {
+                epEmail.SetError(tbEmail, "");
+            }
+        }
+        
+        // -------------------------
     }
 }

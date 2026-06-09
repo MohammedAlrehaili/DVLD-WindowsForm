@@ -106,7 +106,7 @@ namespace DataAccessLayer
             return isFound;
         }
 
-        public static DataTable GetAllContacts()
+        public static DataTable GetPeopleData()
         {
             DataTable dt = new DataTable();
 

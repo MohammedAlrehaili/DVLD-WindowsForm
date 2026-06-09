@@ -13,43 +13,42 @@ namespace PresentationLayer
 {
     public partial class ucPersonDetails : UserControl
     {
+
+        private clsPeople _Person;
+
         public ucPersonDetails()
         {
             InitializeComponent();
         }
 
-        private clsPeople _person;
-
         public clsPeople Person
         {
-            get { return _person; }
+            get { return _Person; }
             set
             {
-                _person = value;
+                _Person = value;
                 _FillData();
             }
         }
 
         private void _FillData()
         {
-            if (_person == null) return;
+            if (_Person == null) return;
 
-            lblPersonID.Text = _person.PersonID.ToString();
-            lblName.Text = _person.FirstName + " " + _person.SecondName + " " +
-                                 _person.ThirdName + " " + _person.LastName;
-            lblNationalNo.Text = _person.NationalNo;
-            lblDateOfBirth.Text = _person.DateOfBirth.ToShortDateString();
-            lblGender.Text = _person.Gender == 0 ? "Male" : "Female";
-            lblPhone.Text = _person.Phone;
-            lblEmail.Text = _person.Email;
-            lblAddress.Text = _person.Address;
-            lblCountry.Text = clsCountry.GetCountryName(_person.NationalityCountryID);
+            lblPersonID.Text = _Person.PersonID.ToString();
+            lblName.Text = _Person.FirstName + " " + _Person.SecondName + " " +
+                                 _Person.ThirdName + " " + _Person.LastName;
+            lblNationalNo.Text = _Person.NationalNo;
+            lblDateOfBirth.Text = _Person.DateOfBirth.ToShortDateString();
+            lblGender.Text = _Person.Gender == 0 ? "Male" : "Female";
+            lblPhone.Text = _Person.Phone;
+            lblEmail.Text = _Person.Email;
+            lblAddress.Text = _Person.Address;
+            lblCountry.Text = clsCountry.GetCountryName(_Person.NationalityCountryID);
 
-            pbProfilePicture.Image = _person.ImagePath != ""
-                                ? Image.FromFile(_person.ImagePath)
+            pbProfilePicture.Image = _Person.ImagePath != ""
+                                ? Image.FromFile(_Person.ImagePath)
                                 : null;
-
-
         }
     }
 }

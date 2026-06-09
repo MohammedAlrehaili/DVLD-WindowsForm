@@ -107,9 +107,9 @@ namespace BussinessLayer
             return clsPeopleDataAccess.GetPeopleByFilter(FilterColumn, FilterValue);
         }
 
-        public static DataTable GetAllContacts()
+        public static DataTable GetPeopleData()
         {
-            return clsPeopleDataAccess.GetAllContacts();
+            return clsPeopleDataAccess.GetPeopleData();
         }
 
         public bool Save()

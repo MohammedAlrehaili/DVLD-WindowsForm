@@ -14,24 +14,13 @@ namespace PresentationLayer
     public partial class frmPersonDetails : Form
     {
 
+        // ----- Private Fields -----
         private int _PersonID;
-
-        public frmPersonDetails()
-        {
-            InitializeComponent();
-
-            
-        }
 
         public frmPersonDetails(int PersonID)
         {
             InitializeComponent();
             _PersonID = PersonID;
-        }
-
-        private void btClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
 
         private void frmPersonDetails_Load(object sender, EventArgs e)
@@ -42,6 +31,15 @@ namespace PresentationLayer
                 ucPersonDetails1.Person = person;
             }
         }
+
+        // ----- Click Methods -----
+
+        private void btClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        // -------------------------
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

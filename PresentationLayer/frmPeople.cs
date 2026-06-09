@@ -18,13 +18,33 @@ namespace PresentationLayer
             InitializeComponent();
         }
 
+        private void frmPeople_Load(object sender, EventArgs e)
+        {
+            LoadPeopleData();
+
+            cbFilter.Items.Add("None");
+            cbFilter.Items.Add("PersonID");
+            cbFilter.Items.Add("NationalNo");
+            cbFilter.Items.Add("FirstName");
+            cbFilter.Items.Add("SecondName");
+            cbFilter.Items.Add("ThirdName");
+            cbFilter.Items.Add("LastName");
+            cbFilter.Items.Add("Nationality");
+            cbFilter.Items.Add("Gender");
+            cbFilter.Items.Add("Phone");
+            cbFilter.Items.Add("Email");
+            cbFilter.SelectedIndex = 0;
+        }
+
+        // Load People Data
         private void LoadPeopleData()
         {
-            DataTable dt = clsPeople.GetAllContacts();
+            DataTable dt = clsPeople.GetPeopleData();
             dgvPeopleData.DataSource = dt;
             lblRecords.Text = dt.Rows.Count.ToString();
         }
 
+        // ----- Click Methods -----
         private void btnAddUser_Click(object sender, EventArgs e)
         {
             frmAddPerson frmAddPerson = new frmAddPerson();
@@ -82,6 +102,32 @@ namespace PresentationLayer
 
         }
 
+        private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmPersonDetails frmPersonDetails = new frmPersonDetails((int)dgvPeopleData.CurrentRow.Cells[0].Value);
+            frmPersonDetails.ShowDialog();
+            LoadPeopleData();
+        }
+
+        private void addNewPersonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmAddPerson frmaddperson = new frmAddPerson();
+            frmaddperson.ShowDialog();
+            LoadPeopleData();
+        }
+
+        private void sendEmailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This Future is not Implemeneted Yet!");
+
+        }
+
+        private void phoneCallToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This Future is not Implemeneted Yet!");
+        }
+
+        // Filter By ComboBox
         private void cbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbFilter.SelectedItem.ToString() != "None")
@@ -95,30 +141,10 @@ namespace PresentationLayer
             }
         }
 
-        private void frmPeople_Load(object sender, EventArgs e)
-        {
-            LoadPeopleData();
-
-            cbFilter.Items.Add("None");
-            cbFilter.Items.Add("PersonID");
-            cbFilter.Items.Add("NationalNo");
-            cbFilter.Items.Add("FirstName");
-            cbFilter.Items.Add("SecondName");
-            cbFilter.Items.Add("ThirdName");
-            cbFilter.Items.Add("LastName");
-            cbFilter.Items.Add("Nationality");
-            cbFilter.Items.Add("Gender");
-            cbFilter.Items.Add("Phone");
-            cbFilter.Items.Add("Email");
-            cbFilter.SelectedIndex = 0;
-        }
-
         private void tbFilter_TextChanged(object sender, EventArgs e)
         {
 
-            string filterValue = "";
             string filterColumn = "";
-
 
             switch (cbFilter.SelectedItem.ToString())
             {
@@ -141,7 +167,7 @@ namespace PresentationLayer
                     filterColumn = "LastName";
                     break;
                 case "Nationality":
-                    filterColumn = "Nationality";
+                    filterColumn = "NationalityCountryID";
                     break;
                 case "Gender":
                     filterColumn = "Gender"; 
@@ -167,31 +193,6 @@ namespace PresentationLayer
                     e.Handled = !char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back;
                     break;
             }
-        }
-
-        private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmPersonDetails frmPersonDetails = new frmPersonDetails((int)dgvPeopleData.CurrentRow.Cells[0].Value);
-            frmPersonDetails.ShowDialog();
-            LoadPeopleData();
-        }
-
-        private void addNewPersonToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmAddPerson frmaddperson = new frmAddPerson();
-            frmaddperson.ShowDialog();
-            LoadPeopleData();
-        }
-
-        private void sendEmailToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("This Future is not Implemeneted Yet!");
-
-        }
-
-        private void phoneCallToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("This Future is not Implemeneted Yet!");
         }
     }
 }

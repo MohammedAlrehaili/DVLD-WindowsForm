@@ -17,11 +17,6 @@ namespace PresentationLayer
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnPeople_Click(object sender, EventArgs e)
         {
             frmPeople frmPeople = new frmPeople();
