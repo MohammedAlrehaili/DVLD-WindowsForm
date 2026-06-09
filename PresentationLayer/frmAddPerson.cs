@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace PresentationLayer
 
         private int _PersonID;
         private clsPeople.enMode _Mode = clsPeople.enMode.AddNew;
+        private bool _ImageRemoved = false;
+        private string _OldImagePath = "";
         public frmAddPerson()
         {
             InitializeComponent();
@@ -65,19 +68,31 @@ namespace PresentationLayer
 
             if (pbPictureProfile.Image != null && openFileDialog1.FileName != "")
             {
+                _DeleteOldImage();
+
                 string imagePath = @"C:\DVLD-People-Images";
                 if (!System.IO.Directory.Exists(imagePath))
                     System.IO.Directory.CreateDirectory(imagePath);
 
                 string fileName = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(openFileDialog1.FileName);
                 string fullPath = System.IO.Path.Combine(imagePath, fileName);
-                pbPictureProfile.Image.Save(fullPath);
+
+                // ✅ Copy file directly instead of saving from PictureBox
+                System.IO.File.Copy(openFileDialog1.FileName, fullPath);
+
                 Person.ImagePath = fullPath;
+            }
+            else if (_ImageRemoved)
+            {
+                // user removed the image
+                _DeleteOldImage();
+                Person.ImagePath = "";
             }
             else
             {
+                // user didn't change anything — keep old path
                 Person.ImagePath = _Mode == enMode.Update
-                                 ? clsPeople.FindPersonByID(_PersonID).ImagePath
+                                 ? _OldImagePath
                                  : "";
             }
 
@@ -115,6 +130,26 @@ namespace PresentationLayer
 
         }
 
+        private Image _LoadImage(string path)
+        {
+            using (var temp = Image.FromFile(path))
+            {
+                return new Bitmap(temp);
+            }
+        }
+
+        private void _DeleteOldImage()
+        {
+            if (_OldImagePath != "" && System.IO.File.Exists(_OldImagePath))
+            {
+                // release the image first
+                pbPictureProfile.Image?.Dispose();
+                pbPictureProfile.Image = null;
+
+                System.IO.File.Delete(_OldImagePath);
+            }
+        }
+
         private void frmAddPerson_Load(object sender, EventArgs e)
         {
             dtpDateOfBirth.MaxDate = DateTime.Now.AddYears(-18);
@@ -130,12 +165,15 @@ namespace PresentationLayer
             {
                 lblPersonID.Text = "N/A";
                 lblHeader.Text = "Add New Person";
+                lbRemove.Visible = false;
             }
             else if (_Mode == enMode.Update)
             {
                 lblHeader.Text = "Update Person";
 
                 clsPeople Person = clsPeople.FindPersonByID(_PersonID);
+                _OldImagePath = Person.ImagePath;
+                lbRemove.Visible = Person.ImagePath != "";
                 if (Person != null)
                 {
                     lblPersonID.Text = _PersonID.ToString();
@@ -152,7 +190,7 @@ namespace PresentationLayer
                     cbCountry.SelectedValue = Person.NationalityCountryID;
                     tbAddress.Text = Person.Address;
                     pbPictureProfile.Image = Person.ImagePath != ""
-                                            ? Image.FromFile(Person.ImagePath)
+                                            ? _LoadImage(Person.ImagePath)
                                             : null;
                 }
             }
@@ -186,13 +224,18 @@ namespace PresentationLayer
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                pbPictureProfile.Image = Image.FromFile(openFileDialog1.FileName);
+                pbPictureProfile.Image = _LoadImage(openFileDialog1.FileName);
+                _ImageRemoved = false;
+                lbRemove.Visible = true;
             }
         }
 
         private void lbRemove_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             pbPictureProfile.Image = null;
+            openFileDialog1.FileName = "";
+            _ImageRemoved = true;
+            lbRemove.Visible = false;
         }
     }
 }

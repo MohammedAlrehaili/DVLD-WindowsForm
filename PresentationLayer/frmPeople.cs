@@ -46,8 +46,40 @@ namespace PresentationLayer
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            clsPeople.DeletePersonByID((int)dgvPeopleData.CurrentRow.Cells[0].Value);
-            LoadPeopleData();
+            if (dgvPeopleData.CurrentRow == null) return;
+
+            int personID = (int)dgvPeopleData.CurrentRow.Cells[0].Value;
+
+            DialogResult result = MessageBox.Show("Are you sure you want to delete this person?",
+                                                  "Confirm Delete",
+                                                  MessageBoxButtons.YesNo,
+                                                  MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                // get image path before deleting from DB
+                clsPeople Person = clsPeople.FindPersonByID(personID);
+
+                if (clsPeople.DeletePersonByID(personID))
+                {
+                    // delete image file after successful DB delete
+                    if (Person != null && Person.ImagePath != "" &&
+                        System.IO.File.Exists(Person.ImagePath))
+                    {
+                        System.IO.File.Delete(Person.ImagePath);
+                    }
+
+                    MessageBox.Show("Person deleted successfully!", "Success",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadPeopleData();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to delete person!", "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
         }
 
         private void cbFilter_SelectedIndexChanged(object sender, EventArgs e)
