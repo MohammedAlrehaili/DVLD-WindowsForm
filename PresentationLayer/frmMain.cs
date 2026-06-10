@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BussinessLayer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,16 @@ namespace PresentationLayer
 {
     public partial class frmMain : Form
     {
+        private clsUser _User;
         public frmMain()
         {
             InitializeComponent();
+        }
+
+        public frmMain(clsUser User)
+        {
+            InitializeComponent();
+            _User = User;
         }
 
         private void btnPeople_Click(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BussinessLayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,14 @@ namespace PresentationLayer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmMain());
+
+            frmLogin loginForm = new frmLogin();
+            loginForm.ShowDialog();
+
+            if (clsUser.CurrentUser != null)
+            {
+                Application.Run(new frmMain());
+            }
         }
     }
 }
