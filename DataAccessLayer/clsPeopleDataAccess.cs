@@ -53,6 +53,54 @@ namespace DataAccessLayer
             return dt;
         }
 
+        public static bool GetPersonByNationalNo(string NationalNo, ref int PersonID, ref string FirstName, ref string SecondName,
+            ref string ThirdName, ref string LastName, ref DateTime DateOfBirth, ref byte Gender, ref string Address, ref string Phone, ref string Email,
+            ref int NationalityCountryID, ref string ImagePath)
+        {
+            bool isFound = false;
+
+            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
+
+            string query = "SELECT * FROM People WHERE NationalNo = @NationalNo;";
+
+            SqlCommand command = new SqlCommand(query, connection);
+
+            command.Parameters.AddWithValue("@NationalNo", NationalNo);
+
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    isFound = true;
+                    PersonID = Convert.ToInt32(reader["PersonID"]);
+                    FirstName = reader["FirstName"].ToString();
+                    SecondName = reader["SecondName"].ToString();
+                    ThirdName = reader["ThirdName"] != DBNull.Value ? reader["ThirdName"].ToString() : "";
+                    LastName = reader["LastName"].ToString();
+                    DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]);
+                    Gender = Convert.ToByte(reader["Gender"]);
+                    Address = reader["Address"].ToString();
+                    Phone = reader["Phone"].ToString();
+                    Email = reader["Email"] != DBNull.Value ? reader["Email"].ToString() : "";
+                    NationalityCountryID = Convert.ToInt32(reader["NationalityCountryID"]);
+                    ImagePath = reader["ImagePath"] != DBNull.Value ? reader["ImagePath"].ToString() : "";
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return isFound;
+        }
+
         public static bool GetPersonByID(int PersonID, ref string NationalNo, ref string FirstName, ref string SecondName,
             ref string ThirdName, ref string LastName, ref DateTime DateOfBirth, ref byte Gender, ref string Address, ref string Phone, ref string Email,
             ref int NationalityCountryID, ref string ImagePath)

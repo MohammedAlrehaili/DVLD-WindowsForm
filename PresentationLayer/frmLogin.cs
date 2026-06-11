@@ -31,6 +31,20 @@ namespace PresentationLayer
                 return;
             }
 
+            if(cbRememberMe.Checked)
+            {
+                Properties.Settings.Default.RememberMe = true;
+                Properties.Settings.Default.SavedUsername = tbUsername.Text;
+                Properties.Settings.Default.SavedPassword = tbPassword.Text;
+            }
+            else
+            {
+                Properties.Settings.Default.RememberMe = false;
+                Properties.Settings.Default.SavedUsername = "";
+                Properties.Settings.Default.SavedPassword = "";
+            }
+            Properties.Settings.Default.Save();
+
             clsUser user = clsUser.Login(tbUsername.Text,tbPassword.Text);
 
             if(user != null)
@@ -42,6 +56,16 @@ namespace PresentationLayer
                 MessageBox.Show("Invalid username or password", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 tbPassword.Clear();
                 tbUsername.Clear();
+            }
+        }
+
+        private void frmLogin_Load(object sender, EventArgs e)
+        {
+            if(Properties.Settings.Default.RememberMe)
+            {
+                cbRememberMe.Checked = true;
+                tbUsername.Text = Properties.Settings.Default.SavedUsername;
+                tbPassword.Text = Properties.Settings.Default.SavedPassword;
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,6 +46,11 @@ namespace BussinessLayer
                 return CurrentUser;
             }
             return null;
+        }
+
+        public static DataTable GetUsers()
+        {
+            return clsUserDataAccess.GetUsers();
         }
     }
 }

@@ -30,5 +30,52 @@ namespace PresentationLayer
             frmPeople frmPeople = new frmPeople();
             frmPeople.ShowDialog();
         }
+
+        private void peopleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void signOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to sign out?", "Sign Out",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+
+            if (result == DialogResult.Yes)
+            {
+                clsUser.CurrentUser = null;
+
+                this.Hide();
+
+                frmLogin loginform = new frmLogin();
+                loginform.ShowDialog();
+
+                if (clsUser.CurrentUser == null)
+                {
+                    Application.Exit();
+                }
+                else
+                {
+                    this.Show();
+                }
+            }
+        }
+
+        private void PeopleToolStrixpMenuItem_Click(object sender, EventArgs e)
+        {
+            frmPeople frmPeople = new frmPeople();
+            frmPeople.ShowDialog();
+        }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void usersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmManageUsers frmManageUsers = new frmManageUsers();
+            frmManageUsers.ShowDialog();
+        }
     }
 }

@@ -87,6 +87,23 @@ namespace BussinessLayer
             return clsPeopleDataAccess.DeletePersonByID(PersonID);
         }
 
+        public static clsPeople FindPersonByNationalNo(string NationalNo)
+        {
+            string firstName = "", secondName = "", thirdName = "",
+                lastName = "", address = "", phone = "", email = "", imagePath = "";
+            byte Gender = 0;
+            DateTime DateOfBirth = DateTime.Now;
+            int PersonID = -1;
+            int NationalityCountryID = -1;
+
+            if(clsPeopleDataAccess.GetPersonByNationalNo(NationalNo, ref PersonID, ref firstName, ref secondName, ref thirdName, ref lastName, ref DateOfBirth, ref Gender, ref address, ref phone, ref email, ref NationalityCountryID, ref imagePath))
+            {
+                return new clsPeople(PersonID, NationalNo, firstName, secondName, thirdName, lastName, DateOfBirth, Gender, address, phone, email, NationalityCountryID, imagePath);
+            }
+            return null;
+
+        }
+
         public static clsPeople FindPersonByID(int PersonID)
         {
             string nationalNo = "", firstName= "", secondName = "", thirdName = "", lastName = "", address = "", phone = "", email = "", imagePath = "";
@@ -101,6 +118,8 @@ namespace BussinessLayer
 
             return null;
         }
+
+        
 
         public static DataTable GetPeopleByFilter(string FilterColumn, string FilterValue)
         {
