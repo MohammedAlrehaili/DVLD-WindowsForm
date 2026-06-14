@@ -86,81 +86,72 @@
             this.lblCountry.AutoSize = true;
             this.lblCountry.Location = new System.Drawing.Point(531, 259);
             this.lblCountry.Name = "lblCountry";
-            this.lblCountry.Size = new System.Drawing.Size(70, 24);
+            this.lblCountry.Size = new System.Drawing.Size(0, 24);
             this.lblCountry.TabIndex = 18;
-            this.lblCountry.Text = "label10";
             // 
             // lblPhone
             // 
             this.lblPhone.AutoSize = true;
             this.lblPhone.Location = new System.Drawing.Point(531, 210);
             this.lblPhone.Name = "lblPhone";
-            this.lblPhone.Size = new System.Drawing.Size(70, 24);
+            this.lblPhone.Size = new System.Drawing.Size(0, 24);
             this.lblPhone.TabIndex = 17;
-            this.lblPhone.Text = "label10";
             // 
             // lblDateOfBirth
             // 
             this.lblDateOfBirth.AutoSize = true;
             this.lblDateOfBirth.Location = new System.Drawing.Point(531, 161);
             this.lblDateOfBirth.Name = "lblDateOfBirth";
-            this.lblDateOfBirth.Size = new System.Drawing.Size(70, 24);
+            this.lblDateOfBirth.Size = new System.Drawing.Size(0, 24);
             this.lblDateOfBirth.TabIndex = 16;
-            this.lblDateOfBirth.Text = "label10";
             // 
             // lblAddress
             // 
             this.lblAddress.AutoSize = true;
             this.lblAddress.Location = new System.Drawing.Point(132, 308);
             this.lblAddress.Name = "lblAddress";
-            this.lblAddress.Size = new System.Drawing.Size(70, 24);
+            this.lblAddress.Size = new System.Drawing.Size(0, 24);
             this.lblAddress.TabIndex = 15;
-            this.lblAddress.Text = "label10";
             // 
             // lblEmail
             // 
             this.lblEmail.AutoSize = true;
             this.lblEmail.Location = new System.Drawing.Point(132, 259);
             this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(70, 24);
+            this.lblEmail.Size = new System.Drawing.Size(0, 24);
             this.lblEmail.TabIndex = 14;
-            this.lblEmail.Text = "label10";
             // 
             // lblGender
             // 
             this.lblGender.AutoSize = true;
             this.lblGender.Location = new System.Drawing.Point(132, 210);
             this.lblGender.Name = "lblGender";
-            this.lblGender.Size = new System.Drawing.Size(70, 24);
+            this.lblGender.Size = new System.Drawing.Size(0, 24);
             this.lblGender.TabIndex = 13;
-            this.lblGender.Text = "label10";
             // 
             // lblNationalNo
             // 
             this.lblNationalNo.AutoSize = true;
             this.lblNationalNo.Location = new System.Drawing.Point(132, 161);
             this.lblNationalNo.Name = "lblNationalNo";
-            this.lblNationalNo.Size = new System.Drawing.Size(70, 24);
+            this.lblNationalNo.Size = new System.Drawing.Size(0, 24);
             this.lblNationalNo.TabIndex = 12;
-            this.lblNationalNo.Text = "label10";
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
             this.lblName.Location = new System.Drawing.Point(132, 112);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(70, 24);
+            this.lblName.Size = new System.Drawing.Size(0, 24);
             this.lblName.TabIndex = 11;
-            this.lblName.Text = "label10";
             // 
             // lblPersonID
             // 
             this.lblPersonID.AutoSize = true;
             this.lblPersonID.Location = new System.Drawing.Point(132, 63);
             this.lblPersonID.Name = "lblPersonID";
-            this.lblPersonID.Size = new System.Drawing.Size(70, 24);
+            this.lblPersonID.Size = new System.Drawing.Size(0, 24);
             this.lblPersonID.TabIndex = 10;
-            this.lblPersonID.Text = "label10";
             // 
             // pbProfilePicture
             // 

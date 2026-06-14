@@ -30,30 +30,29 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.button2 = new System.Windows.Forms.Button();
+            this.tpPersonalInfo = new System.Windows.Forms.TabPage();
+            this.btnNext = new System.Windows.Forms.Button();
             this.ucPersonDetails1 = new PresentationLayer.ucPersonDetails();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gbFilter = new System.Windows.Forms.GroupBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.tbFilter = new System.Windows.Forms.TextBox();
             this.cbFilter = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tpLoginInfo = new System.Windows.Forms.TabPage();
+            this.cbIsActive = new System.Windows.Forms.CheckBox();
+            this.tbConfirmPassword = new System.Windows.Forms.TextBox();
+            this.tbPassword = new System.Windows.Forms.TextBox();
+            this.tbUserName = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnAddPerson = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tpPersonalInfo.SuspendLayout();
+            this.gbFilter.SuspendLayout();
+            this.tpLoginInfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -69,35 +68,37 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tpPersonalInfo);
+            this.tabControl1.Controls.Add(this.tpLoginInfo);
             this.tabControl1.Location = new System.Drawing.Point(3, 132);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(988, 549);
             this.tabControl1.TabIndex = 1;
+            this.tabControl1.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Selecting);
             // 
-            // tabPage1
+            // tpPersonalInfo
             // 
-            this.tabPage1.Controls.Add(this.button2);
-            this.tabPage1.Controls.Add(this.ucPersonDetails1);
-            this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(980, 523);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Personal Info";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tpPersonalInfo.Controls.Add(this.btnNext);
+            this.tpPersonalInfo.Controls.Add(this.ucPersonDetails1);
+            this.tpPersonalInfo.Controls.Add(this.gbFilter);
+            this.tpPersonalInfo.Location = new System.Drawing.Point(4, 22);
+            this.tpPersonalInfo.Name = "tpPersonalInfo";
+            this.tpPersonalInfo.Padding = new System.Windows.Forms.Padding(3);
+            this.tpPersonalInfo.Size = new System.Drawing.Size(980, 523);
+            this.tpPersonalInfo.TabIndex = 0;
+            this.tpPersonalInfo.Text = "Personal Info";
+            this.tpPersonalInfo.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnNext
             // 
-            this.button2.Location = new System.Drawing.Point(878, 485);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Next";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnNext.Location = new System.Drawing.Point(878, 485);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(75, 23);
+            this.btnNext.TabIndex = 2;
+            this.btnNext.Text = "Next";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // ucPersonDetails1
             // 
@@ -107,19 +108,20 @@
             this.ucPersonDetails1.Size = new System.Drawing.Size(978, 366);
             this.ucPersonDetails1.TabIndex = 1;
             // 
-            // groupBox1
+            // gbFilter
             // 
-            this.groupBox1.Controls.Add(this.btnSearch);
-            this.groupBox1.Controls.Add(this.tbFilter);
-            this.groupBox1.Controls.Add(this.cbFilter);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(6, 20);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(891, 71);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Filter";
+            this.gbFilter.Controls.Add(this.btnAddPerson);
+            this.gbFilter.Controls.Add(this.btnSearch);
+            this.gbFilter.Controls.Add(this.tbFilter);
+            this.gbFilter.Controls.Add(this.cbFilter);
+            this.gbFilter.Controls.Add(this.label2);
+            this.gbFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbFilter.Location = new System.Drawing.Point(6, 20);
+            this.gbFilter.Name = "gbFilter";
+            this.gbFilter.Size = new System.Drawing.Size(891, 71);
+            this.gbFilter.TabIndex = 0;
+            this.gbFilter.TabStop = false;
+            this.gbFilter.Text = "Filter";
             // 
             // btnSearch
             // 
@@ -156,62 +158,60 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Find By:";
             // 
-            // tabPage2
+            // tpLoginInfo
             // 
-            this.tabPage2.Controls.Add(this.checkBox1);
-            this.tabPage2.Controls.Add(this.textBox4);
-            this.tabPage2.Controls.Add(this.textBox3);
-            this.tabPage2.Controls.Add(this.textBox2);
-            this.tabPage2.Controls.Add(this.label7);
-            this.tabPage2.Controls.Add(this.label6);
-            this.tabPage2.Controls.Add(this.label5);
-            this.tabPage2.Controls.Add(this.label4);
-            this.tabPage2.Controls.Add(this.label3);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(980, 523);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Login Info";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tpLoginInfo.Controls.Add(this.cbIsActive);
+            this.tpLoginInfo.Controls.Add(this.tbConfirmPassword);
+            this.tpLoginInfo.Controls.Add(this.tbPassword);
+            this.tpLoginInfo.Controls.Add(this.tbUserName);
+            this.tpLoginInfo.Controls.Add(this.label7);
+            this.tpLoginInfo.Controls.Add(this.label6);
+            this.tpLoginInfo.Controls.Add(this.label5);
+            this.tpLoginInfo.Location = new System.Drawing.Point(4, 22);
+            this.tpLoginInfo.Name = "tpLoginInfo";
+            this.tpLoginInfo.Padding = new System.Windows.Forms.Padding(3);
+            this.tpLoginInfo.Size = new System.Drawing.Size(980, 523);
+            this.tpLoginInfo.TabIndex = 1;
+            this.tpLoginInfo.Text = "Login Info";
+            this.tpLoginInfo.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // cbIsActive
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.Location = new System.Drawing.Point(239, 301);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(98, 28);
-            this.checkBox1.TabIndex = 8;
-            this.checkBox1.Text = "Is Active";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.cbIsActive.AutoSize = true;
+            this.cbIsActive.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbIsActive.Location = new System.Drawing.Point(239, 264);
+            this.cbIsActive.Name = "cbIsActive";
+            this.cbIsActive.Size = new System.Drawing.Size(98, 28);
+            this.cbIsActive.TabIndex = 8;
+            this.cbIsActive.Text = "Is Active";
+            this.cbIsActive.UseVisualStyleBackColor = true;
             // 
-            // textBox4
+            // tbConfirmPassword
             // 
-            this.textBox4.Location = new System.Drawing.Point(239, 242);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(267, 20);
-            this.textBox4.TabIndex = 7;
+            this.tbConfirmPassword.Location = new System.Drawing.Point(239, 205);
+            this.tbConfirmPassword.Name = "tbConfirmPassword";
+            this.tbConfirmPassword.Size = new System.Drawing.Size(267, 20);
+            this.tbConfirmPassword.TabIndex = 7;
             // 
-            // textBox3
+            // tbPassword
             // 
-            this.textBox3.Location = new System.Drawing.Point(239, 179);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(267, 20);
-            this.textBox3.TabIndex = 6;
+            this.tbPassword.Location = new System.Drawing.Point(239, 142);
+            this.tbPassword.Name = "tbPassword";
+            this.tbPassword.Size = new System.Drawing.Size(267, 20);
+            this.tbPassword.TabIndex = 6;
             // 
-            // textBox2
+            // tbUserName
             // 
-            this.textBox2.Location = new System.Drawing.Point(239, 114);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(267, 20);
-            this.textBox2.TabIndex = 5;
+            this.tbUserName.Location = new System.Drawing.Point(239, 77);
+            this.tbUserName.Name = "tbUserName";
+            this.tbUserName.Size = new System.Drawing.Size(267, 20);
+            this.tbUserName.TabIndex = 5;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(20, 238);
+            this.label7.Location = new System.Drawing.Point(20, 201);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(167, 24);
             this.label7.TabIndex = 4;
@@ -221,7 +221,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(90, 174);
+            this.label6.Location = new System.Drawing.Point(90, 137);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(97, 24);
             this.label6.TabIndex = 3;
@@ -231,68 +231,60 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(82, 110);
+            this.label5.Location = new System.Drawing.Point(82, 73);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(105, 24);
             this.label5.TabIndex = 2;
             this.label5.Text = "UserName:";
             // 
-            // label4
+            // btnClose
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(235, 53);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(71, 24);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "UserID:";
+            this.btnClose.Location = new System.Drawing.Point(815, 699);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.TabIndex = 2;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // label3
+            // btnSave
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(116, 53);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 24);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "UserID:";
+            this.btnSave.Location = new System.Drawing.Point(906, 699);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 3;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // button3
+            // btnAddPerson
             // 
-            this.button3.Location = new System.Drawing.Point(815, 699);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Close";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(906, 699);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Save";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnAddPerson.Location = new System.Drawing.Point(763, 33);
+            this.btnAddPerson.Name = "btnAddPerson";
+            this.btnAddPerson.Size = new System.Drawing.Size(100, 25);
+            this.btnAddPerson.TabIndex = 4;
+            this.btnAddPerson.Text = "Add Person";
+            this.btnAddPerson.UseVisualStyleBackColor = true;
+            this.btnAddPerson.Click += new System.EventHandler(this.btnAddPerson_Click);
             // 
             // frmAddUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(995, 747);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label1);
             this.Name = "frmAddUser";
             this.Text = "frmAddUser";
             this.Load += new System.EventHandler(this.frmAddUser_Load);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.tpPersonalInfo.ResumeLayout(false);
+            this.gbFilter.ResumeLayout(false);
+            this.gbFilter.PerformLayout();
+            this.tpLoginInfo.ResumeLayout(false);
+            this.tpLoginInfo.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -302,25 +294,24 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tpPersonalInfo;
+        private System.Windows.Forms.TabPage tpLoginInfo;
         private ucPersonDetails ucPersonDetails1;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbFilter;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.TextBox tbFilter;
         private System.Windows.Forms.ComboBox cbFilter;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button btnNext;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.CheckBox cbIsActive;
+        private System.Windows.Forms.TextBox tbConfirmPassword;
+        private System.Windows.Forms.TextBox tbPassword;
+        private System.Windows.Forms.TextBox tbUserName;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnAddPerson;
     }
 }

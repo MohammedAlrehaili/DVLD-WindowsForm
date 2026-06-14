@@ -16,6 +16,14 @@ namespace PresentationLayer
 
         private clsPeople _Person;
 
+        private Image _LoadImage(string path)
+        {
+            using (var temp = Image.FromFile(path))
+            {
+                return new Bitmap(temp);
+            }
+        }
+
         public ucPersonDetails()
         {
             InitializeComponent();
@@ -47,7 +55,7 @@ namespace PresentationLayer
             lblCountry.Text = clsCountry.GetCountryName(_Person.NationalityCountryID);
 
             pbProfilePicture.Image = _Person.ImagePath != ""
-                                ? Image.FromFile(_Person.ImagePath)
+                                ? _LoadImage(_Person.ImagePath)
                                 : null;
         }
     }

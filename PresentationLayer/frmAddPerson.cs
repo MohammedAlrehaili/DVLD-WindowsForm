@@ -25,6 +25,12 @@ namespace PresentationLayer
 
         // --------------------------
 
+        // ----- Public Fields -----
+
+        public int newPersonID { get; private set; } = -1;
+
+        // --------------------------
+
         // ----- Private Methods -----
         private Image _LoadImage(string path)
         {
@@ -176,6 +182,8 @@ namespace PresentationLayer
                 {
                     MessageBox.Show(_Mode == enMode.AddNew ? "Person added successfully!" : "Person updated successfully!",
                                     "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    newPersonID = Person.PersonID;
                     this.Close();
                 }
                 else

@@ -85,8 +85,7 @@
             // sUIIToolStripMenuItem
             // 
             this.sUIIToolStripMenuItem.Name = "sUIIToolStripMenuItem";
-            this.sUIIToolStripMenuItem.Size = new System.Drawing.Size(180, 30);
-            this.sUIIToolStripMenuItem.Text = "SUII";
+            this.sUIIToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             // 
             // usersToolStripMenuItem
             // 
@@ -111,6 +110,7 @@
             this.currentUserInfoToolStripMenuItem.Name = "currentUserInfoToolStripMenuItem";
             this.currentUserInfoToolStripMenuItem.Size = new System.Drawing.Size(224, 30);
             this.currentUserInfoToolStripMenuItem.Text = "Current User Info";
+            this.currentUserInfoToolStripMenuItem.Click += new System.EventHandler(this.currentUserInfoToolStripMenuItem_Click);
             // 
             // changePasswordToolStripMenuItem
             // 
@@ -118,6 +118,7 @@
             this.changePasswordToolStripMenuItem.Name = "changePasswordToolStripMenuItem";
             this.changePasswordToolStripMenuItem.Size = new System.Drawing.Size(224, 30);
             this.changePasswordToolStripMenuItem.Text = "Change Password";
+            this.changePasswordToolStripMenuItem.Click += new System.EventHandler(this.changePasswordToolStripMenuItem_Click);
             // 
             // signOutToolStripMenuItem
             // 

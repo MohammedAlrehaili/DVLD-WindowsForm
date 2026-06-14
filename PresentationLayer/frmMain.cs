@@ -77,5 +77,17 @@ namespace PresentationLayer
             frmManageUsers frmManageUsers = new frmManageUsers();
             frmManageUsers.ShowDialog();
         }
+
+        private void currentUserInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmUserInfo frmUserInfo = new frmUserInfo(clsUser.CurrentUser.UserID);
+            frmUserInfo.ShowDialog();
+        }
+
+        private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmChangePassword frmChangePassword = new frmChangePassword(clsUser.CurrentUser.UserID);
+            frmChangePassword.ShowDialog();
+        }
     }
 }
