@@ -13,7 +13,12 @@ namespace PresentationLayer
 {
     public partial class frmMain : Form
     {
+        // ----- Private Fields -----
         private clsUser _User;
+
+        // --------------------------
+
+        // ----- Constructors -----
         public frmMain()
         {
             InitializeComponent();
@@ -25,16 +30,16 @@ namespace PresentationLayer
             _User = User;
         }
 
-        private void btnPeople_Click(object sender, EventArgs e)
+        // --------------------------
+
+        // ----- Form Events -----
+        private void frmMain_Load(object sender, EventArgs e)
         {
-            frmPeople frmPeople = new frmPeople();
-            frmPeople.ShowDialog();
         }
 
-        private void peopleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        // --------------------------
 
-        }
+        // ----- Click Methods -----
 
         private void signOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -68,10 +73,6 @@ namespace PresentationLayer
             frmPeople.ShowDialog();
         }
 
-        private void frmMain_Load(object sender, EventArgs e)
-        {
-        }
-
         private void usersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmManageUsers frmManageUsers = new frmManageUsers();
@@ -89,5 +90,8 @@ namespace PresentationLayer
             frmChangePassword frmChangePassword = new frmChangePassword(clsUser.CurrentUser.UserID);
             frmChangePassword.ShowDialog();
         }
+
+        // --------------------------
+
     }
 }

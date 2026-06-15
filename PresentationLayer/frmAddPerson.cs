@@ -25,12 +25,6 @@ namespace PresentationLayer
 
         // --------------------------
 
-        // ----- Public Fields -----
-
-        public int newPersonID { get; private set; } = -1;
-
-        // --------------------------
-
         // ----- Private Methods -----
         private Image _LoadImage(string path)
         {
@@ -54,6 +48,13 @@ namespace PresentationLayer
 
         // --------------------------
 
+        // ----- Public Fields -----
+        // ID of the newly added person, used by frmAddUser to load the created person.
+        public int newPersonID { get; private set; } = -1;
+
+        // --------------------------
+
+        // ----- Constructors ------
         public frmAddPerson()
         {
             InitializeComponent();
@@ -64,9 +65,12 @@ namespace PresentationLayer
         {
             InitializeComponent();
             _PersonID = PersonID;
-            _Mode = clsPeople.enMode.Update;
+            _Mode = enMode.Update;
         }
 
+        // --------------------------
+
+        // ----- Form Events -----
         private void frmAddPerson_Load(object sender, EventArgs e)
         {
             dtpDateOfBirth.MaxDate = DateTime.Now.AddYears(-18);
@@ -112,6 +116,8 @@ namespace PresentationLayer
                 }
             }
         }
+
+        // --------------------------
 
         // ----- Click Methods -----
         private void btnClose_Click(object sender, EventArgs e)
@@ -199,6 +205,9 @@ namespace PresentationLayer
             }
         }
 
+        // --------------------------
+        
+        // ----- Image Handling -----
         private void lbSetImage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             openFileDialog1.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
@@ -222,7 +231,7 @@ namespace PresentationLayer
 
         // -------------------------
 
-        // Validation Of NationalD Field
+        // ----- Validations -----
         private void tbNationalID_Leave(object sender, EventArgs e)
         {
             if (clsPeople.SearchPersonByNationalID(tbNationalID.Text))
@@ -235,9 +244,7 @@ namespace PresentationLayer
             }
 
         }
-        // -------------------------
-
-        // ------ Validation Of Email Field -----
+        
         private void tbEmail_Leave(object sender, EventArgs e)
         {
             if (tbEmail.Text != "")

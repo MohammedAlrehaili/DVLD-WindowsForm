@@ -13,10 +13,8 @@ namespace PresentationLayer
 {
     public partial class frmManageUsers : Form
     {
-        public frmManageUsers()
-        {
-            InitializeComponent();
-        }
+
+        // ----- Private Functions -----
 
         private void LoadUsers()
         {
@@ -46,6 +44,14 @@ namespace PresentationLayer
             dgvUsersData.Columns["IsActive"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
         }
 
+
+        // ----- Constructors -----
+        public frmManageUsers()
+        {
+            InitializeComponent();
+        }
+        
+        // ----- Form Events -----
         private void frmManageUsers_Load(object sender, EventArgs e)
         {
             LoadUsers();
@@ -64,6 +70,7 @@ namespace PresentationLayer
             cbIsActive.SelectedIndex = 0;
         }
 
+        // ----- Click Methods -----
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -73,80 +80,6 @@ namespace PresentationLayer
         {
             frmAddUser frmAddUser = new frmAddUser();
             frmAddUser.ShowDialog();
-        }
-
-        private void cbFilter_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string selected = cbFilter.SelectedItem.ToString();
-
-            if (selected == "None")
-            {
-                tbFilter.Visible = false;
-                cbIsActive.Visible = false;
-                LoadUsers();
-            }
-            else if (selected == "Is Active")
-            {
-                tbFilter.Visible = false;
-                cbIsActive.Visible = true;
-            }
-            else
-            {
-                tbFilter.Visible = true;
-                cbIsActive.Visible = false;
-            }
-        }
-
-        private void tbFilter_TextChanged(object sender, EventArgs e)
-        {
-            string filterColumn = "";
-
-            switch (cbFilter.SelectedItem.ToString())
-            {
-                case "User ID": filterColumn = "UserID"; break;
-                case "UserName": filterColumn = "UserName"; break;
-                case "Person ID": filterColumn = "PersonID"; break;
-                case "Full Name": filterColumn = "FullName"; break;
-            }
-
-            DataTable dt = clsUser.GetUsersByFilter(filterColumn, tbFilter.Text);
-            dgvUsersData.DataSource = dt;
-            _FormatGrid();
-            lblRecords.Text = dt.Rows.Count.ToString();
-        }
-
-
-        private void tbFilter_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            switch (cbFilter.SelectedItem.ToString())
-            {
-                case "Person ID":
-                case "User ID":
-                    e.Handled = !char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back;
-                    break;
-            }
-        }
-
-        private void cbIsActive_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            DataTable dt;
-
-            switch (cbIsActive.SelectedItem.ToString())
-            {
-                case "Yes":
-                    dt = clsUser.GetUsersByFilter("IsActive", "1");
-                    break;
-                case "No":
-                    dt = clsUser.GetUsersByFilter("IsActive", "0");
-                    break;
-                default: // "All"
-                    dt = clsUser.GetUsers();
-                    break;
-            }
-
-            dgvUsersData.DataSource = dt;
-            _FormatGrid();
-            lblRecords.Text = dt.Rows.Count.ToString();
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
@@ -191,5 +124,82 @@ namespace PresentationLayer
         {
             MessageBox.Show("This Future is not Implemeneted Yet!");
         }
+
+        // ----- Filter Event -----
+        private void cbFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selected = cbFilter.SelectedItem.ToString();
+
+            if (selected == "None")
+            {
+                tbFilter.Visible = false;
+                cbIsActive.Visible = false;
+                LoadUsers();
+            }
+            else if (selected == "Is Active")
+            {
+                tbFilter.Visible = false;
+                cbIsActive.Visible = true;
+            }
+            else
+            {
+                tbFilter.Visible = true;
+                cbIsActive.Visible = false;
+            }
+        }
+
+        private void tbFilter_TextChanged(object sender, EventArgs e)
+        {
+            string filterColumn = "";
+
+            switch (cbFilter.SelectedItem.ToString())
+            {
+                case "User ID": filterColumn = "UserID"; break;
+                case "UserName": filterColumn = "UserName"; break;
+                case "Person ID": filterColumn = "PersonID"; break;
+                case "Full Name": filterColumn = "FullName"; break;
+            }
+
+            DataTable dt = clsUser.GetUsersByFilter(filterColumn, tbFilter.Text);
+            dgvUsersData.DataSource = dt;
+            _FormatGrid();
+            lblRecords.Text = dt.Rows.Count.ToString();
+        }
+
+        // Restrict input to digits (Backspace still allowed) when filtering by
+        // Person ID or User ID, since those columns are numeric.
+        private void tbFilter_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            switch (cbFilter.SelectedItem.ToString())
+            {
+                case "Person ID":
+                case "User ID":
+                    e.Handled = !char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back;
+                    break;
+            }
+        }
+
+        private void cbIsActive_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DataTable dt;
+
+            switch (cbIsActive.SelectedItem.ToString())
+            {
+                case "Yes":
+                    dt = clsUser.GetUsersByFilter("IsActive", "1");
+                    break;
+                case "No":
+                    dt = clsUser.GetUsersByFilter("IsActive", "0");
+                    break;
+                default: // "All"
+                    dt = clsUser.GetUsers();
+                    break;
+            }
+
+            dgvUsersData.DataSource = dt;
+            _FormatGrid();
+            lblRecords.Text = dt.Rows.Count.ToString();
+        }
+
     }
 }

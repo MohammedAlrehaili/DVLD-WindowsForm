@@ -13,11 +13,29 @@ namespace PresentationLayer
 {
     public partial class frmLogin : Form
     {
+
+        // ----- Constructors -----
         public frmLogin()
         {
             InitializeComponent();
         }
 
+        // --------------------------
+
+        // ----- Form Events -----
+        private void frmLogin_Load(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.RememberMe)
+            {
+                cbRememberMe.Checked = true;
+                tbUsername.Text = Properties.Settings.Default.SavedUsername;
+                tbPassword.Text = Properties.Settings.Default.SavedPassword;
+            }
+        }
+
+        // --------------------------
+
+        // ----- Click Methods -----
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -59,14 +77,6 @@ namespace PresentationLayer
             }
         }
 
-        private void frmLogin_Load(object sender, EventArgs e)
-        {
-            if(Properties.Settings.Default.RememberMe)
-            {
-                cbRememberMe.Checked = true;
-                tbUsername.Text = Properties.Settings.Default.SavedUsername;
-                tbPassword.Text = Properties.Settings.Default.SavedPassword;
-            }
-        }
+        // --------------------------
     }
 }

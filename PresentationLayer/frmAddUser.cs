@@ -16,11 +16,16 @@ namespace PresentationLayer
     public partial class frmAddUser : Form
     {
 
+        // ----- Private Fields -----
+
         private enMode _Mode = enMode.AddNew;
         private int _UserID = 0;
         private bool _PersonFound = false;
         private int _PersonID = -1;
 
+        // ---------------------------
+
+        // ----- Constructors -----
         public frmAddUser()
         {
             InitializeComponent();
@@ -34,6 +39,9 @@ namespace PresentationLayer
             _Mode = enMode.Update;
         }
 
+        // ---------------------------
+
+        // ----- Form Events -----
         private void frmAddUser_Load(object sender, EventArgs e)
         {
 
@@ -67,6 +75,9 @@ namespace PresentationLayer
             cbFilter.SelectedIndex = 0;
         }
 
+        // ---------------------------
+
+        // ----- Click Methods -----
         private void btnSearch_Click(object sender, EventArgs e)
         {
             if (tbFilter.Text == "")
@@ -96,15 +107,6 @@ namespace PresentationLayer
             }
         }
 
-        private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
-        {
-            if(e.TabPage == tpLoginInfo && !_PersonFound)
-            {
-                e.Cancel = true;
-                MessageBox.Show("Please Find a person first!","Required",MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
         private void btnNext_Click(object sender, EventArgs e)
         {
 
@@ -123,7 +125,7 @@ namespace PresentationLayer
                 }
             }
 
-            tabControl1.SelectedTab = tpLoginInfo;
+            tcUserSetup.SelectedTab = tpLoginInfo;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -203,6 +205,18 @@ namespace PresentationLayer
                 }
             }
             
+        }
+        // --------------------------------
+
+        // Block switching to the Login Info tab until a person has been found/selected,
+        // since a user account must be linked to an existing person record.
+        private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            if (e.TabPage == tpLoginInfo && !_PersonFound)
+            {
+                e.Cancel = true;
+                MessageBox.Show("Please Find a person first!", "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

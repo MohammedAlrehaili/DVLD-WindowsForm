@@ -17,12 +17,14 @@ namespace PresentationLayer
         // ----- Private Fields -----
         private int _PersonID;
 
+        // ----- Constructors -----
         public frmPersonDetails(int PersonID)
         {
             InitializeComponent();
             _PersonID = PersonID;
         }
 
+        // ----- Form Events -----
         private void frmPersonDetails_Load(object sender, EventArgs e)
         {
             clsPeople person = clsPeople.FindPersonByID(_PersonID);
@@ -39,12 +41,11 @@ namespace PresentationLayer
             this.Close();
         }
 
-        // -------------------------
-
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             frmAddPerson frmaddperson = new frmAddPerson(_PersonID);
             frmaddperson.ShowDialog();
         }
+
     }
 }

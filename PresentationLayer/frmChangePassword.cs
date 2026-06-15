@@ -13,7 +13,14 @@ namespace PresentationLayer
 {
     public partial class frmChangePassword : Form
     {
+
+        // ----- Private Fields -----
+
         private int _UserID;
+
+        // --------------------------
+
+        // ----- Constructors -----
         public frmChangePassword()
         {
             InitializeComponent();
@@ -24,6 +31,10 @@ namespace PresentationLayer
             InitializeComponent();
             _UserID = UserID;
         }
+
+        // --------------------------
+
+        // ----- Form Events -----
 
         private void frmChangePassword_Load(object sender, EventArgs e)
         {
@@ -38,6 +49,9 @@ namespace PresentationLayer
             }
         }
 
+        // --------------------------
+
+        // ------ Click Methods -----
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -93,5 +107,7 @@ namespace PresentationLayer
                 return;
             }
         }
+
+        // --------------------------
     }
 }

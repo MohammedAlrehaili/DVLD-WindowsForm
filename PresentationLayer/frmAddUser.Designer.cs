@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tcUserSetup = new System.Windows.Forms.TabControl();
             this.tpPersonalInfo = new System.Windows.Forms.TabPage();
             this.btnNext = new System.Windows.Forms.Button();
             this.ucPersonDetails1 = new PresentationLayer.ucPersonDetails();
             this.gbFilter = new System.Windows.Forms.GroupBox();
+            this.btnAddPerson = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
             this.tbFilter = new System.Windows.Forms.TextBox();
             this.cbFilter = new System.Windows.Forms.ComboBox();
@@ -48,8 +49,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.btnAddPerson = new System.Windows.Forms.Button();
-            this.tabControl1.SuspendLayout();
+            this.tcUserSetup.SuspendLayout();
             this.tpPersonalInfo.SuspendLayout();
             this.gbFilter.SuspendLayout();
             this.tpLoginInfo.SuspendLayout();
@@ -66,16 +66,16 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Add New User";
             // 
-            // tabControl1
+            // tcUserSetup
             // 
-            this.tabControl1.Controls.Add(this.tpPersonalInfo);
-            this.tabControl1.Controls.Add(this.tpLoginInfo);
-            this.tabControl1.Location = new System.Drawing.Point(3, 132);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(988, 549);
-            this.tabControl1.TabIndex = 1;
-            this.tabControl1.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Selecting);
+            this.tcUserSetup.Controls.Add(this.tpPersonalInfo);
+            this.tcUserSetup.Controls.Add(this.tpLoginInfo);
+            this.tcUserSetup.Location = new System.Drawing.Point(3, 132);
+            this.tcUserSetup.Name = "tcUserSetup";
+            this.tcUserSetup.SelectedIndex = 0;
+            this.tcUserSetup.Size = new System.Drawing.Size(988, 549);
+            this.tcUserSetup.TabIndex = 1;
+            this.tcUserSetup.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.tabControl1_Selecting);
             // 
             // tpPersonalInfo
             // 
@@ -122,6 +122,16 @@
             this.gbFilter.TabIndex = 0;
             this.gbFilter.TabStop = false;
             this.gbFilter.Text = "Filter";
+            // 
+            // btnAddPerson
+            // 
+            this.btnAddPerson.Location = new System.Drawing.Point(763, 33);
+            this.btnAddPerson.Name = "btnAddPerson";
+            this.btnAddPerson.Size = new System.Drawing.Size(100, 25);
+            this.btnAddPerson.TabIndex = 4;
+            this.btnAddPerson.Text = "Add Person";
+            this.btnAddPerson.UseVisualStyleBackColor = true;
+            this.btnAddPerson.Click += new System.EventHandler(this.btnAddPerson_Click);
             // 
             // btnSearch
             // 
@@ -257,16 +267,6 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // btnAddPerson
-            // 
-            this.btnAddPerson.Location = new System.Drawing.Point(763, 33);
-            this.btnAddPerson.Name = "btnAddPerson";
-            this.btnAddPerson.Size = new System.Drawing.Size(100, 25);
-            this.btnAddPerson.TabIndex = 4;
-            this.btnAddPerson.Text = "Add Person";
-            this.btnAddPerson.UseVisualStyleBackColor = true;
-            this.btnAddPerson.Click += new System.EventHandler(this.btnAddPerson_Click);
-            // 
             // frmAddUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -274,12 +274,12 @@
             this.ClientSize = new System.Drawing.Size(995, 747);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tcUserSetup);
             this.Controls.Add(this.label1);
             this.Name = "frmAddUser";
             this.Text = "frmAddUser";
             this.Load += new System.EventHandler(this.frmAddUser_Load);
-            this.tabControl1.ResumeLayout(false);
+            this.tcUserSetup.ResumeLayout(false);
             this.tpPersonalInfo.ResumeLayout(false);
             this.gbFilter.ResumeLayout(false);
             this.gbFilter.PerformLayout();
@@ -293,7 +293,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tcUserSetup;
         private System.Windows.Forms.TabPage tpPersonalInfo;
         private System.Windows.Forms.TabPage tpLoginInfo;
         private ucPersonDetails ucPersonDetails1;

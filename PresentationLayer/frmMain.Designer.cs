@@ -65,7 +65,6 @@
             this.peopleToolStripMenuItem.Name = "peopleToolStripMenuItem";
             this.peopleToolStripMenuItem.Size = new System.Drawing.Size(134, 29);
             this.peopleToolStripMenuItem.Text = "Applications";
-            this.peopleToolStripMenuItem.Click += new System.EventHandler(this.peopleToolStripMenuItem_Click);
             // 
             // PeopleToolStrixpMenuItem
             // 

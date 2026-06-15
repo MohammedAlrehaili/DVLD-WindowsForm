@@ -13,11 +13,22 @@ namespace PresentationLayer
 {
     public partial class frmPeople : Form
     {
+
+        // ----- Private Functions -----
+        private void LoadPeopleData()
+        {
+            DataTable dt = clsPeople.GetPeopleData();
+            dgvPeopleData.DataSource = dt;
+            lblRecords.Text = dt.Rows.Count.ToString();
+        }
+
+        // ----- Constructors -----
         public frmPeople()
         {
             InitializeComponent();
         }
 
+        // ----- Form Events -----
         private void frmPeople_Load(object sender, EventArgs e)
         {
             LoadPeopleData();
@@ -34,14 +45,6 @@ namespace PresentationLayer
             cbFilter.Items.Add("Phone");
             cbFilter.Items.Add("Email");
             cbFilter.SelectedIndex = 0;
-        }
-
-        // Load People Data
-        private void LoadPeopleData()
-        {
-            DataTable dt = clsPeople.GetPeopleData();
-            dgvPeopleData.DataSource = dt;
-            lblRecords.Text = dt.Rows.Count.ToString();
         }
 
         // ----- Click Methods -----
@@ -127,7 +130,7 @@ namespace PresentationLayer
             MessageBox.Show("This Future is not Implemeneted Yet!");
         }
 
-        // Filter By ComboBox
+        // ----- Filter Events -----
         private void cbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbFilter.SelectedItem.ToString() != "None")
@@ -185,6 +188,8 @@ namespace PresentationLayer
             lblRecords.Text = dt.Rows.Count.ToString();
         }
 
+        // Restrict input to digits (Backspace still allowed) when filtering by
+        // Person ID only since it columns are numeric.
         private void tbFilter_KeyPress(object sender, KeyPressEventArgs e)
         {
             switch (cbFilter.SelectedItem.ToString())

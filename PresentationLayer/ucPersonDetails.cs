@@ -14,28 +14,15 @@ namespace PresentationLayer
     public partial class ucPersonDetails : UserControl
     {
 
+        // ----- Private Fields -----
         private clsPeople _Person;
 
+        // ----- Private Functions -----
         private Image _LoadImage(string path)
         {
             using (var temp = Image.FromFile(path))
             {
                 return new Bitmap(temp);
-            }
-        }
-
-        public ucPersonDetails()
-        {
-            InitializeComponent();
-        }
-
-        public clsPeople Person
-        {
-            get { return _Person; }
-            set
-            {
-                _Person = value;
-                _FillData();
             }
         }
 
@@ -57,6 +44,23 @@ namespace PresentationLayer
             pbProfilePicture.Image = _Person.ImagePath != ""
                                 ? _LoadImage(_Person.ImagePath)
                                 : null;
+        }
+
+        // ----- Public Fields -----
+        public clsPeople Person
+        {
+            get { return _Person; }
+            set
+            {
+                _Person = value;
+                _FillData();
+            }
+        }
+
+        // ----- Constructors -----
+        public ucPersonDetails()
+        {
+            InitializeComponent();
         }
     }
 }
