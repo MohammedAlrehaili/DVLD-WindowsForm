@@ -16,8 +16,6 @@ namespace PresentationLayer
         // ----- Private Fields -----
         private clsUser _User;
 
-        // --------------------------
-
         // ----- Constructors -----
         public frmMain()
         {
@@ -30,14 +28,10 @@ namespace PresentationLayer
             _User = User;
         }
 
-        // --------------------------
-
         // ----- Form Events -----
         private void frmMain_Load(object sender, EventArgs e)
         {
         }
-
-        // --------------------------
 
         // ----- Click Methods -----
 
@@ -91,7 +85,10 @@ namespace PresentationLayer
             frmChangePassword.ShowDialog();
         }
 
-        // --------------------------
-
+        private void manageApplicationsTypesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmManageApplicationTypes frmManageApplications = new frmManageApplicationTypes();
+            frmManageApplications.ShowDialog();
+        }
     }
 }

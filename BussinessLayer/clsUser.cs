@@ -42,6 +42,18 @@ namespace BussinessLayer
             Mode = enMode.Update;
         }
 
+        private bool _AddNewUser()
+        {
+            this.UserID = clsUserDataAccess.AddUser(this.PersonID, this.UserName, this.Password, this.isActive);
+
+            return (this.UserID != -1);
+        }
+
+        private bool _UpdateUser()
+        {
+            return clsUserDataAccess.UpdateUser(this.UserID, this.PersonID, this.UserName, this.Password, this.isActive);
+        }
+
         public static clsUser Login(string UserName, string Password)
         {
             int UserID = -1, PersonID = -1;
@@ -61,11 +73,6 @@ namespace BussinessLayer
         public static DataTable GetUsers()
         {
             return clsUserDataAccess.GetUsers();
-        }
-
-        private bool _UpdateUser()
-        {
-            return clsUserDataAccess.UpdateUser(this.UserID, this.PersonID, this.UserName, this.Password, this.isActive);
         }
 
         public bool Save()
@@ -122,11 +129,5 @@ namespace BussinessLayer
             return clsUserDataAccess.DeleteUser(UserID);
         }
 
-        private bool _AddNewUser()
-        {
-            this.UserID = clsUserDataAccess.AddUser(this.PersonID, this.UserName, this.Password, this.isActive);
-
-            return (this.UserID != -1);
-        }
     }
 }
