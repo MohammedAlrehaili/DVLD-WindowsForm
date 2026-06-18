@@ -90,5 +90,11 @@ namespace PresentationLayer
             frmManageApplicationTypes frmManageApplications = new frmManageApplicationTypes();
             frmManageApplications.ShowDialog();
         }
+
+        private void manageTestTypesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmManageTestTypes frmManageTestTypes = new frmManageTestTypes();
+            frmManageTestTypes.ShowDialog();
+        }
     }
 }
