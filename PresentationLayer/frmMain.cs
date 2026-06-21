@@ -96,5 +96,17 @@ namespace PresentationLayer
             frmManageTestTypes frmManageTestTypes = new frmManageTestTypes();
             frmManageTestTypes.ShowDialog();
         }
+
+        private void localLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmLocalLicenseApplication frm = new frmLocalLicenseApplication();
+            frm.ShowDialog();
+        }
+
+        private void localDrivingLicenseApplicationsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmLocalDrivingLicenseApplications frm = new frmLocalDrivingLicenseApplications();
+            frm.ShowDialog();
+        }
     }
 }
