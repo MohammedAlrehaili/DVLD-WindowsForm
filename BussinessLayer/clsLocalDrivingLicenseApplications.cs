@@ -31,6 +31,11 @@ namespace BussinessLayer
             return (this.LocalDrivingLicenseApplicationID != -1);
         }
 
+        public static DataTable GetLocalDrivingLicenseApplicationsByFilter(string FilterColumn, string FilterValue)
+        {
+            return clsLocalDrivingLicenseApplicationsDataAccess.GetLocalDrivingLicenseApplicationsByFilter(FilterColumn, FilterValue);
+        }
+
         public static bool DoesPersonHaveActiveApplicationForClass(int ApplicantPersonID, int LicenseClassID)
         {
             return clsLocalDrivingLicenseApplicationsDataAccess.DoesPersonHaveActiveApplicationForClass(ApplicantPersonID, LicenseClassID);

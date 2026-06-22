@@ -43,6 +43,14 @@ namespace PresentationLayer
         private void frmLocalDrivingLicenseApplications_Load(object sender, EventArgs e)
         {
             LoadLocalLicenseApplications();
+
+            cbFilter.Items.Add("None");
+            cbFilter.Items.Add("L.D.L.AppID");
+            cbFilter.Items.Add("National No.");
+            cbFilter.Items.Add("Full Name");
+            cbFilter.Items.Add("Status");
+
+            cbFilter.SelectedIndex = 0;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -78,6 +86,63 @@ namespace PresentationLayer
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            frmLocalLicenseApplication frm = new frmLocalLicenseApplication();
+            frm.ShowDialog();
+            LoadLocalLicenseApplications();
+        }
+
+        private void tbFilter_TextChanged(object sender, EventArgs e)
+        {
+
+            string FilterColumn = "";
+
+            switch(cbFilter.SelectedItem)
+            {
+                case "L.D.L.AppID":
+                    FilterColumn = "L.D.L.AppID";
+                    break;
+                case "National No.":
+                    FilterColumn = "National No.";
+                    break;
+                case "Full Name":
+                    FilterColumn = "Full Name";
+                    break;
+                case "Status":
+                    FilterColumn = "Status";
+                    break;
+            }
+
+            DataTable table = clsLocalDrivingLicenseApplications.GetLocalDrivingLicenseApplicationsByFilter(FilterColumn, tbFilter.Text);
+            dgvLicenseApplications.DataSource = table;
+            lblRecords.Text = table.Rows.Count.ToString();
+        }
+
+        private void cbFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if(cbFilter.SelectedItem != "None")
+            {
+                tbFilter.Visible = true;
+            }    
+            else
+            {
+                tbFilter.Visible = false;
+                LoadLocalLicenseApplications();
+            }
+        }
+
+        private void tbFilter_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            switch (cbFilter.SelectedItem.ToString())
+            {
+                case "L.D.L.AppID":
+                    e.Handled = !char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back;
+                    break;
             }
         }
     }
