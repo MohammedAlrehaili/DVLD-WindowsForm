@@ -82,7 +82,7 @@ namespace PresentationLayer
             app.ApplicationTypeID = 1;
             app.ApplicationStatus = 1;
             app.LastStatusDate = DateTime.Now;
-            app.PaidFees = 15;
+            app.PaidFees = clsApplicationTypes.GetApplicationTypeByID(1).ApplicationFees;
             app.CreatedByUserID = clsUser.CurrentUser.UserID;
 
             try

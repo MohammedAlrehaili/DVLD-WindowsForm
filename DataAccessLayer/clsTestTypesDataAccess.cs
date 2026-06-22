@@ -21,10 +21,10 @@ namespace DataAccessLayer
 
             SqlCommand command = new SqlCommand(query, connection);
 
-            command.Parameters.AddWithValue("TestTypeID", TestTypeID);
-            command.Parameters.AddWithValue("TestTypeTitle", TestTypeTitle);
-            command.Parameters.AddWithValue("TestTypeDescription", TestTypeDescription);
-            command.Parameters.AddWithValue("TestTypeFees", TestTypeFees);
+            command.Parameters.AddWithValue("@TestTypeID", TestTypeID);
+            command.Parameters.AddWithValue("@TestTypeTitle", TestTypeTitle);
+            command.Parameters.AddWithValue("@TestTypeDescription", TestTypeDescription);
+            command.Parameters.AddWithValue("@TestTypeFees", TestTypeFees);
 
             try
             {
@@ -54,7 +54,7 @@ namespace DataAccessLayer
 
             SqlCommand command = new SqlCommand(query, connection);
 
-            command.Parameters.AddWithValue("TestTypeID", TestTypeID);
+            command.Parameters.AddWithValue("@TestTypeID", TestTypeID);
 
             try
             {

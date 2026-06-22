@@ -21,7 +21,7 @@ namespace DataAccessLayer
 
             SqlCommand command = new SqlCommand(query, connection);
 
-            command.Parameters.AddWithValue("ApplicationTypeID", ApplicationTypeID);
+            command.Parameters.AddWithValue("@ApplicationTypeID", ApplicationTypeID);
 
             try
             {
@@ -34,6 +34,7 @@ namespace DataAccessLayer
                     ApplicationTypeTitle = reader["ApplicationTypeTitle"].ToString();
                     ApplicationFees = Convert.ToInt16(reader["ApplicationFees"]);
                 }
+                reader.Close();
             }
             catch (Exception ex)
             {
@@ -57,9 +58,9 @@ namespace DataAccessLayer
 
             SqlCommand command = new SqlCommand(query, connection);
 
-            command.Parameters.AddWithValue("ApplicationTypeID", ApplicationTypeID);
-            command.Parameters.AddWithValue("ApplicationTypeTitle", ApplicationTypeTitle);
-            command.Parameters.AddWithValue("ApplicationFees", ApplicationFees);
+            command.Parameters.AddWithValue("@ApplicationTypeID", ApplicationTypeID);
+            command.Parameters.AddWithValue("@ApplicationTypeTitle", ApplicationTypeTitle);
+            command.Parameters.AddWithValue("@ApplicationFees", ApplicationFees);
 
             try
             {

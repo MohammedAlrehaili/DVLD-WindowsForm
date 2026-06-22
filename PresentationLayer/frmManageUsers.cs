@@ -84,6 +84,8 @@ namespace PresentationLayer
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (dgvUsersData.CurrentRow == null) return;
+
             frmAddUser frmAddUser = new frmAddUser((int)dgvUsersData.CurrentRow.Cells[0].Value);
             frmAddUser.ShowDialog();
             LoadUsers();
@@ -98,12 +100,48 @@ namespace PresentationLayer
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            clsUser.DeleteUser((int)dgvUsersData.CurrentRow.Cells[0].Value);
-            LoadUsers();
+            if (dgvUsersData.CurrentRow == null) return;
+
+            int userID = (int)dgvUsersData.CurrentRow.Cells[0].Value;
+
+            DialogResult result = MessageBox.Show("Are you sure you want to delete this user?",
+                                                  "Confirm Delete",
+                                                  MessageBoxButtons.YesNo,
+                                                  MessageBoxIcon.Warning);
+
+            if (result != DialogResult.Yes) return;
+
+            try
+            {
+                if (clsUser.DeleteUser(userID))
+                {
+                    MessageBox.Show("User deleted successfully!", "Success",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadUsers();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to delete user!", "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (System.Data.SqlClient.SqlException ex) when (ex.Number == 547)
+            {
+                MessageBox.Show("This user cannot be deleted because they have created records in the system.",
+                                "Cannot Delete", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
         private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+            if (dgvUsersData.CurrentRow == null) return;
+
             frmChangePassword frmChangePassword = new frmChangePassword((int)dgvUsersData.CurrentRow.Cells[0].Value);
             frmChangePassword.ShowDialog();
             LoadUsers();
@@ -111,6 +149,8 @@ namespace PresentationLayer
 
         private void showDetailsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (dgvUsersData.CurrentRow == null) return;
+
             frmUserInfo frmUserInfo = new frmUserInfo((int)dgvUsersData.CurrentRow.Cells[0].Value);
             frmUserInfo.ShowDialog();
         }

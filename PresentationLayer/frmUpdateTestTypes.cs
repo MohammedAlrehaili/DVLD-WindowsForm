@@ -39,20 +39,25 @@ namespace PresentationLayer
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if(tbTitle.Text == "" || tbDescription.Text == "" || tbTitle.Text == "")
+            if (tbTitle.Text == "" || tbDescription.Text == "" || tbFees.Text == "")
             {
                 MessageBox.Show("Please Fill the fields", "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            clsTestTypes TestType = clsTestTypes.GetTestTypeByID(_TestTypeID);
+            if (!short.TryParse(tbFees.Text, out short fees))
+            {
+                MessageBox.Show("Fees must be a valid number!", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            TestType.TestTypeTitle = tbTitle.Text;
-            TestType.TestTypeDescription = tbDescription.Text;
-            TestType.TestTypeFees = Convert.ToInt16(tbFees.Text);
+            clsTestTypes TestType = clsTestTypes.GetTestTypeByID(_TestTypeID);
 
             if (TestType != null)
             {
+                TestType.TestTypeTitle = tbTitle.Text;
+                TestType.TestTypeDescription = tbDescription.Text;
+                TestType.TestTypeFees = fees;
 
                 try
                 {
