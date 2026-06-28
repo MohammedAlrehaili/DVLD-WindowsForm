@@ -66,6 +66,14 @@ namespace BussinessLayer
             Mode = enMode.Update;
         }
 
+        public string GetFullName()
+        {
+            if (ThirdName == null)
+                ThirdName = "";
+
+            return FirstName + " " + SecondName + " " + ThirdName + " " + LastName;
+        }
+
         private bool _AddNewPerson()
         {
             this.PersonID = clsPeopleDataAccess.AddPerson(this.NationalNo, this.FirstName, this.SecondName,

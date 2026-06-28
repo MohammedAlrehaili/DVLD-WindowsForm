@@ -145,5 +145,11 @@ namespace PresentationLayer
                     break;
             }
         }
+
+        private void scheduleVisionTestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmVisionTestAppointments frm = new frmVisionTestAppointments((int)dgvLicenseApplications.CurrentRow.Cells["ApplicationID"].Value, (int)dgvLicenseApplications.CurrentRow.Cells["L.D.L.AppID"].Value);
+            frm.ShowDialog();
+        }
     }
 }

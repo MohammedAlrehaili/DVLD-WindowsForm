@@ -12,6 +12,77 @@ namespace DataAccessLayer
     public class clsLocalDrivingLicenseApplicationsDataAccess
     {
 
+        public static int GetPassedTestsCount(int LocalDrivingLicenseApplicationID)
+        {
+            int count = 0;
+
+            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
+
+            string query = @"SELECT COUNT(*) 
+                    FROM TestAppointments TA
+                    JOIN Tests T ON T.TestAppointmentID = TA.TestAppointmentID
+                    WHERE TA.LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID
+                      AND T.TestResult = 1";
+
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
+
+            try
+            {
+                connection.Open();
+                count = (int)command.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return count;
+        }
+
+        public static bool GetLocalDrivingLicenseApplicationByID(int LocalDrivingLicenseApplicationID, ref int ApplicationID, ref int LicenseClassID)
+        {
+            bool isFound = false;
+
+            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
+
+            string query = "SELECT * FROM LocalDrivingLicenseApplications WHERE LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID";
+        
+            SqlCommand command = new SqlCommand(query,connection);
+
+            command.Parameters.AddWithValue("LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
+
+            try
+            {
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    isFound = true;
+                    ApplicationID = Convert.ToInt32(reader["ApplicationID"]);
+                    LicenseClassID = Convert.ToInt32(reader["LicenseClassID"]);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return isFound;
+        
+        }
+
         public static bool DoesPersonHaveActiveApplicationForClass(int ApplicantPersonID, int LicenseClassID)
         {
             bool found = false;

@@ -22,6 +22,18 @@ namespace BussinessLayer
             LicenseClassID = -1;
         }
 
+        private clsLocalDrivingLicenseApplications(int LocalDrivingLicenseApplicationID, int ApplicationID, int LicenseClassID)
+        {
+            this.LocalDrivingLicenseApplicationID = LocalDrivingLicenseApplicationID;
+            this.ApplicationID = ApplicationID;
+            this.LicenseClassID = LicenseClassID;
+        }
+
+        public static int GetPassedTestsCount(int LocalDrivingLicenseApplicationID)
+        {
+            return clsLocalDrivingLicenseApplicationsDataAccess.GetPassedTestsCount(LocalDrivingLicenseApplicationID);
+        }
+
         public bool Save()
         {
             this.LocalDrivingLicenseApplicationID =
@@ -29,6 +41,18 @@ namespace BussinessLayer
                     this.ApplicationID, this.LicenseClassID);
 
             return (this.LocalDrivingLicenseApplicationID != -1);
+        }
+
+        public static clsLocalDrivingLicenseApplications GetLocalDrivingLicenseApplicationByID(int LocalDrivingLicenseApplicationID)
+        {
+            int ApplicationID = -1;
+            int LicenseClassID = -1;
+
+            if(clsLocalDrivingLicenseApplicationsDataAccess.GetLocalDrivingLicenseApplicationByID(LocalDrivingLicenseApplicationID,ref ApplicationID,ref LicenseClassID))
+            {
+                return new clsLocalDrivingLicenseApplications(LocalDrivingLicenseApplicationID, ApplicationID, LicenseClassID);
+            }
+            return null;
         }
 
         public static DataTable GetLocalDrivingLicenseApplicationsByFilter(string FilterColumn, string FilterValue)
