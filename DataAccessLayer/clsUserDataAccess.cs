@@ -92,7 +92,7 @@ namespace DataAccessLayer
             SqlCommand command = new SqlCommand(query, connection);
 
             command.Parameters.AddWithValue("@UserID", UserID);
-            command.Parameters.AddWithValue("@Password", NewPassword);
+            command.Parameters.AddWithValue("@Password", clsDataAccessSettings.HashPassword(NewPassword));
 
             try
             {
@@ -124,7 +124,7 @@ namespace DataAccessLayer
             command.Parameters.AddWithValue("@UserID", UserID);
             command.Parameters.AddWithValue("@PersonID", PersonID);
             command.Parameters.AddWithValue("@UserName", UserName);
-            command.Parameters.AddWithValue("@Password", Password);
+            command.Parameters.AddWithValue("@Password", clsDataAccessSettings.HashPassword(Password));
             command.Parameters.AddWithValue("@IsActive", IsActive);
 
             try
@@ -239,7 +239,7 @@ namespace DataAccessLayer
 
             command.Parameters.AddWithValue("@PersonID", PersonID);
             command.Parameters.AddWithValue("@UserName", UserName);
-            command.Parameters.AddWithValue("@Password", Password);
+            command.Parameters.AddWithValue("@Password", clsDataAccessSettings.HashPassword(Password));
             command.Parameters.AddWithValue("@isActive", isActive);
 
             try
@@ -315,8 +315,8 @@ namespace DataAccessLayer
             SqlCommand command = new SqlCommand(query, connection);
 
             command.Parameters.AddWithValue("@Username", username);
-            command.Parameters.AddWithValue("@Password", password);
-
+            command.Parameters.AddWithValue("@Password", clsDataAccessSettings.HashPassword(password));
+            
             try
             {
                 connection.Open();

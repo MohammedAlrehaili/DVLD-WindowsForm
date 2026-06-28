@@ -36,10 +36,10 @@
             this.btnClose = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.dgvTestAppoitnments = new System.Windows.Forms.DataGridView();
-            this.ucLicenseApplicationDetails1 = new PresentationLayer.ucLicenseApplicationDetails();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.takeTestToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ucLicenseApplicationDetails1 = new PresentationLayer.ucLicenseApplicationDetails();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTestAppoitnments)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -118,27 +118,18 @@
             this.dgvTestAppoitnments.Size = new System.Drawing.Size(913, 233);
             this.dgvTestAppoitnments.TabIndex = 8;
             // 
-            // ucLicenseApplicationDetails1
-            // 
-            this.ucLicenseApplicationDetails1.app = null;
-            this.ucLicenseApplicationDetails1.LDLapp = null;
-            this.ucLicenseApplicationDetails1.Location = new System.Drawing.Point(28, 145);
-            this.ucLicenseApplicationDetails1.Name = "ucLicenseApplicationDetails1";
-            this.ucLicenseApplicationDetails1.Size = new System.Drawing.Size(941, 480);
-            this.ucLicenseApplicationDetails1.TabIndex = 1;
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.editToolStripMenuItem,
             this.takeTestToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(123, 48);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.editToolStripMenuItem.Text = "Edit";
             this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
@@ -147,6 +138,15 @@
             this.takeTestToolStripMenuItem.Name = "takeTestToolStripMenuItem";
             this.takeTestToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.takeTestToolStripMenuItem.Text = "Take Test";
+            // 
+            // ucLicenseApplicationDetails1
+            // 
+            this.ucLicenseApplicationDetails1.app = null;
+            this.ucLicenseApplicationDetails1.LDLapp = null;
+            this.ucLicenseApplicationDetails1.Location = new System.Drawing.Point(28, 145);
+            this.ucLicenseApplicationDetails1.Name = "ucLicenseApplicationDetails1";
+            this.ucLicenseApplicationDetails1.Size = new System.Drawing.Size(941, 480);
+            this.ucLicenseApplicationDetails1.TabIndex = 1;
             // 
             // frmVisionTestAppointments
             // 

@@ -3,12 +3,31 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Text;
 using static BussinessLayer.clsPeople;
 
 namespace BussinessLayer
 {
+
+    public static class clsHelper
+    {
+        public static string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                StringBuilder sb = new StringBuilder();
+                foreach (byte b in bytes)
+                    sb.Append(b.ToString("X2"));
+                return sb.ToString();
+            }
+        }
+    }
+
     public class clsUser
     {
 
@@ -52,6 +71,11 @@ namespace BussinessLayer
         private bool _UpdateUser()
         {
             return clsUserDataAccess.UpdateUser(this.UserID, this.PersonID, this.UserName, this.Password, this.isActive);
+        }
+
+        public static bool VerifyPassword(string plainPassword, string hashedPassword)
+        {
+            return clsHelper.HashPassword(plainPassword) == hashedPassword;
         }
 
         public static clsUser Login(string UserName, string Password)
@@ -129,5 +153,6 @@ namespace BussinessLayer
             return clsUserDataAccess.DeleteUser(UserID);
         }
 
+    
     }
 }

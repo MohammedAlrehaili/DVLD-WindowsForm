@@ -70,21 +70,22 @@ namespace PresentationLayer
 
             if (user != null)
             {
-                if(tbCurrentPassword.Text != user.Password)
+                if (!clsUser.VerifyPassword(tbCurrentPassword.Text, user.Password))
                 {
-                    MessageBox.Show("Current password is wrong","Warning",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                    MessageBox.Show("Current password is wrong", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+                // Check new and confirm match
                 if (tbNewPassword.Text != tbConfirmPassword.Text)
                 {
                     MessageBox.Show("New Password And Confirm Password Doesn't Match", "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                if (tbNewPassword.Text == user.Password)
+                // Check new password is different from old
+                if (clsUser.VerifyPassword(tbNewPassword.Text, user.Password))
                 {
-                    MessageBox.Show("New password must be different from the current password!", "Warning",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("New password must be different from the current password!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
