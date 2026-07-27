@@ -42,7 +42,7 @@ namespace DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {
@@ -72,10 +72,10 @@ namespace DataAccessLayer
                     dt.Load(reader);
                 }
                 reader.Close();
-            }
+            }   
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {

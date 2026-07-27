@@ -78,6 +78,11 @@ namespace BussinessLayer
             return clsHelper.HashPassword(plainPassword) == hashedPassword;
         }
 
+        public class InactiveAccountException : Exception
+        {
+            public InactiveAccountException() : base("Account is inactive.") { }
+        }
+
         public static clsUser Login(string UserName, string Password)
         {
             int UserID = -1, PersonID = -1;
@@ -85,7 +90,7 @@ namespace BussinessLayer
 
             if(clsUserDataAccess.GetUserByUsernameAndPassword(UserName,Password, ref UserID, ref PersonID,ref isActive))
             {
-                if (!isActive) return null;
+                if (!isActive) throw new InactiveAccountException();
 
 
                 CurrentUser = new clsUser(UserID, PersonID, UserName, Password, isActive);

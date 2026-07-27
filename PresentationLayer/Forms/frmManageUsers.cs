@@ -80,6 +80,7 @@ namespace PresentationLayer
         {
             frmAddUser frmAddUser = new frmAddUser();
             frmAddUser.ShowDialog();
+            LoadUsers();
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)

@@ -14,15 +14,11 @@ namespace PresentationLayer
     public partial class frmLogin : Form
     {
 
-        // ----- Constructors -----
         public frmLogin()
         {
             InitializeComponent();
         }
 
-        // --------------------------
-
-        // ----- Form Events -----
         private void frmLogin_Load(object sender, EventArgs e)
         {
             if (Properties.Settings.Default.RememberMe)
@@ -33,9 +29,6 @@ namespace PresentationLayer
             }
         }
 
-        // --------------------------
-
-        // ----- Click Methods -----
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -43,13 +36,13 @@ namespace PresentationLayer
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if(tbPassword.Text == "" || tbUsername.Text == "")
+            if (tbPassword.Text == "" || tbUsername.Text == "")
             {
-                MessageBox.Show("Please enter username and password!","Validation",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                MessageBox.Show("Please enter username and password!", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if(cbRememberMe.Checked)
+            if (cbRememberMe.Checked)
             {
                 Properties.Settings.Default.RememberMe = true;
                 Properties.Settings.Default.SavedUsername = tbUsername.Text;
@@ -63,20 +56,27 @@ namespace PresentationLayer
             }
             Properties.Settings.Default.Save();
 
-            clsUser user = clsUser.Login(tbUsername.Text,tbPassword.Text);
+            try
+            {
+                clsUser user = clsUser.Login(tbUsername.Text, tbPassword.Text);
 
-            if(user != null)
-            {
-                this.Close();
+                if (user != null)
+                {
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid username or password", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    tbPassword.Clear();
+                    tbUsername.Clear();
+                }
             }
-            else
+            catch (clsUser.InactiveAccountException)
             {
-                MessageBox.Show("Invalid username or password", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Your account is inactive. Please contact the administrator.", "Account Inactive", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 tbPassword.Clear();
-                tbUsername.Clear();
             }
-        }
 
-        // --------------------------
+        }
     }
 }

@@ -31,7 +31,7 @@ namespace DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {
@@ -72,7 +72,7 @@ namespace DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {
@@ -101,7 +101,7 @@ namespace DataAccessLayer
                 rowsAffected = command.ExecuteNonQuery();
             }
             catch (Exception ex) {
-                throw ex;
+                throw;
             }
             finally
             {
@@ -124,7 +124,7 @@ namespace DataAccessLayer
             command.Parameters.AddWithValue("@UserID", UserID);
             command.Parameters.AddWithValue("@PersonID", PersonID);
             command.Parameters.AddWithValue("@UserName", UserName);
-            command.Parameters.AddWithValue("@Password", clsDataAccessSettings.HashPassword(Password));
+            command.Parameters.AddWithValue("@Password", Password);
             command.Parameters.AddWithValue("@IsActive", IsActive);
 
             try
@@ -134,7 +134,7 @@ namespace DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {
@@ -184,7 +184,7 @@ namespace DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {
@@ -216,7 +216,7 @@ namespace DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {
@@ -255,7 +255,7 @@ namespace DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {
@@ -294,7 +294,7 @@ namespace DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {
@@ -332,7 +332,7 @@ namespace DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {

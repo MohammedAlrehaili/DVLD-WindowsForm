@@ -39,7 +39,7 @@ namespace DataAccessLayer
             catch (Exception ex)
             {
                 isFound = false;
-                throw ex;
+                throw;
             }
             finally
             {
@@ -71,7 +71,7 @@ namespace DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {
@@ -104,7 +104,7 @@ namespace DataAccessLayer
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
             finally
             {
