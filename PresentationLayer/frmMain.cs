@@ -13,10 +13,9 @@ namespace PresentationLayer
 {
     public partial class frmMain : Form
     {
-        // ----- Private Fields -----
+
         private clsUser _User;
 
-        // ----- Constructors -----
         public frmMain()
         {
             InitializeComponent();
@@ -28,12 +27,11 @@ namespace PresentationLayer
             _User = User;
         }
 
-        // ----- Form Events -----
-        private void frmMain_Load(object sender, EventArgs e)
+        private void LocalLicenseToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
+            frmLocalLicenseApplication frm = new frmLocalLicenseApplication();
+            frm.ShowDialog();
         }
-
-        // ----- Click Methods -----
 
         private void signOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -95,12 +93,6 @@ namespace PresentationLayer
         {
             frmManageTestTypes frmManageTestTypes = new frmManageTestTypes();
             frmManageTestTypes.ShowDialog();
-        }
-
-        private void localLicenseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmLocalLicenseApplication frm = new frmLocalLicenseApplication();
-            frm.ShowDialog();
         }
 
         private void localDrivingLicenseApplicationsToolStripMenuItem_Click(object sender, EventArgs e)
