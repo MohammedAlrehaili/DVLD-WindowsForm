@@ -91,7 +91,7 @@ namespace PresentationLayer
 
                 if (clsUser.UpdatePassword(user.UserID,tbNewPassword.Text))
                 {
-                    MessageBox.Show("Password Changed Sucessfully", "Suceess", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Password Changed Sucessfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     tbCurrentPassword.Clear();
                     tbConfirmPassword.Clear();
                     tbNewPassword.Clear();

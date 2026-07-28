@@ -25,7 +25,6 @@ namespace PresentationLayer
             {
                 cbRememberMe.Checked = true;
                 tbUsername.Text = Properties.Settings.Default.SavedUsername;
-                tbPassword.Text = Properties.Settings.Default.SavedPassword;
             }
         }
 
@@ -46,7 +45,7 @@ namespace PresentationLayer
             {
                 Properties.Settings.Default.RememberMe = true;
                 Properties.Settings.Default.SavedUsername = tbUsername.Text;
-                Properties.Settings.Default.SavedPassword = tbPassword.Text;
+                Properties.Settings.Default.SavedPassword = clsHelper.HashPassword(tbPassword.Text);
             }
             else
             {
@@ -76,7 +75,6 @@ namespace PresentationLayer
                 MessageBox.Show("Your account is inactive. Please contact the administrator.", "Account Inactive", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 tbPassword.Clear();
             }
-
         }
     }
 }

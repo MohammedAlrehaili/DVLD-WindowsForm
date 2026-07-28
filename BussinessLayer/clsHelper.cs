@@ -5,13 +5,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer
+namespace BussinessLayer
 {
-    public static class clsDataAccessSettings
-    {
-        public static string ConnectionString = "Server=.;Database=DVLD;User Id=sa;Password=123456;";
 
-        // Duplicated in clsHelper (BussinessLayer) — circular dependency prevents sharing
+    // Duplicated in clsDataAccessSettings (DataAccessLayer) — circular dependency prevents sharing
+    public static class clsHelper
+    {
         public static string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())

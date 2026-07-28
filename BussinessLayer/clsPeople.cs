@@ -68,10 +68,14 @@ namespace BussinessLayer
 
         public string GetFullName()
         {
-            if (ThirdName == null)
-                ThirdName = "";
+            string fullName = FirstName + " " + SecondName + " ";
 
-            return FirstName + " " + SecondName + " " + ThirdName + " " + LastName;
+            if(!string.IsNullOrEmpty(ThirdName))
+            {
+                fullName += ThirdName + " ";
+            }
+            fullName += LastName;
+            return fullName;
         }
 
         private bool _AddNewPerson()

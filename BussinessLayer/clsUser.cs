@@ -6,27 +6,10 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
-using System.Text;
 using static BussinessLayer.clsPeople;
 
 namespace BussinessLayer
 {
-
-    public static class clsHelper
-    {
-        public static string HashPassword(string password)
-        {
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                StringBuilder sb = new StringBuilder();
-                foreach (byte b in bytes)
-                    sb.Append(b.ToString("X2"));
-                return sb.ToString();
-            }
-        }
-    }
 
     public class clsUser
     {

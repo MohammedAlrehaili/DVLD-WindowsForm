@@ -253,7 +253,7 @@ namespace DataAccessLayer
 
             using (SqlCommand command = new SqlCommand(query, connection))
             {
-                command.Parameters.AddWithValue("NationalNo", NationalNo);
+                command.Parameters.AddWithValue("@NationalNo", NationalNo);
 
                 connection.Open();
                 int count = (int)command.ExecuteScalar();

@@ -21,7 +21,7 @@ namespace DataAccessLayer
 
             using (SqlCommand command = new SqlCommand(query, connection))
             {
-                command.Parameters.AddWithValue("LicenseClassID", LicenseClassID);
+                command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
 
                 connection.Open();
 

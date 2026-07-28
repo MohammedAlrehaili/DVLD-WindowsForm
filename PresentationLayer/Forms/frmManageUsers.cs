@@ -158,12 +158,12 @@ namespace PresentationLayer
 
         private void sendEmailToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This Future is not Implemeneted Yet!");
+            MessageBox.Show("This Feature is not Implemeneted Yet!");        
         }
 
         private void phoneCallToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This Future is not Implemeneted Yet!");
+            MessageBox.Show("This Feature is not Implemeneted Yet!");
         }
 
         // ----- Filter Event -----

@@ -16,6 +16,8 @@ namespace PresentationLayer
 
         private clsApplications _App;
         private clsLocalDrivingLicenseApplications _LDLApp;
+        private short _TestFees = 0;
+
         public clsApplications App
         {
             get { return _App; }
@@ -43,7 +45,9 @@ namespace PresentationLayer
             lblDClass.Text = clsLicenseClasses.GetLicenseClassesByID(_LDLApp.LicenseClassID).ClassName;
             lblName.Text = clsPeople.FindPersonByID(clsApplications.FindByApplicationID(_LDLApp.ApplicationID).ApplicantPersonID).GetFullName();
             lblTrial.Text = clsLocalDrivingLicenseApplications.GetPassedTestsCount(_LDLApp.LocalDrivingLicenseApplicationID).ToString();
-            lblFees.Text = clsTestTypes.GetTestTypeByID(1).TestTypeFees.ToString();
+            clsTestTypes testType = clsTestTypes.GetTestTypeByID(1);
+            _TestFees = testType.TestTypeFees;
+            lblFees.Text = _TestFees.ToString();
         }
         public ucScheduleTest()
         {
@@ -64,7 +68,7 @@ namespace PresentationLayer
             testApp.TestTypeID = 1;
             testApp.LocalDrivingLicenseApplicationID = _LDLApp.LocalDrivingLicenseApplicationID;
             testApp.AppointmentDate = dtpDate.Value;
-            testApp.PaidFees = 10;
+            testApp.PaidFees = _TestFees;
             testApp.CreatedByUserID = _App.CreatedByUserID;
             testApp.IsLocked = true;
 

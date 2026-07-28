@@ -9,6 +9,13 @@ namespace BussinessLayer
 {
     public class clsApplications
     {
+        public enum enApplicationStatus : byte
+        {
+            New = 1,
+            Cancelled = 2,
+            Completed = 3
+        }
+
         public int ApplicationID { get; set; }
         public int ApplicantPersonID { get; set; }
         public DateTime ApplicationDate { get; set; }
@@ -24,7 +31,7 @@ namespace BussinessLayer
             ApplicantPersonID = -1;
             ApplicationDate = DateTime.Now;
             ApplicationTypeID = 0;
-            ApplicationStatus = 1; // New
+            ApplicationStatus = (byte)enApplicationStatus.New;
             LastStatusDate = DateTime.Now;
             PaidFees = 0;
             CreatedByUserID = -1;
@@ -78,10 +85,10 @@ namespace BussinessLayer
             if (app == null)
                 return false;
 
-            if (app.ApplicationStatus == 3) // Completed
+            if (app.ApplicationStatus == (byte)enApplicationStatus.Completed)
                 return false;
 
-            return clsApplicationsDataAccess.UpdateApplicationStatus(ApplicationID, 2); // Cancelled
+            return clsApplicationsDataAccess.UpdateApplicationStatus(ApplicationID, (byte)enApplicationStatus.Cancelled);
         }
     }
 }

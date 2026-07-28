@@ -30,7 +30,9 @@ namespace PresentationLayer
             cbLicenseClass.ValueMember = "LicenseClassID";
 
             lblDate.Text = DateTime.Now.ToShortDateString();
-            lblFees.Text = "15";
+            clsApplicationTypes appType = clsApplicationTypes.GetApplicationTypeByID(1);
+            if(appType != null)
+                lblFees.Text = appType.ApplicationFees.ToString();
             lblUsername.Text = clsUser.CurrentUser.UserName;
 
         }

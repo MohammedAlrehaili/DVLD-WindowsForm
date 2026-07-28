@@ -41,14 +41,14 @@ namespace BussinessLayer
         public static clsLicenseClasses GetLicenseClassesByID(int LicenseClassID)
         {
             string ClassName = "";
-            string ClassDesciption = "";
+            string ClassDescription = "";
             short MinimumAllowedAge = 0;
             short DefaultValidityLength = 0;
             short ClassFees = 0;
 
-            if(clsLicenseClassesDataAccess.GetLicenseClassesByID(LicenseClassID, ref ClassName, ref ClassDesciption, ref MinimumAllowedAge, ref DefaultValidityLength, ref ClassFees))
+            if(clsLicenseClassesDataAccess.GetLicenseClassesByID(LicenseClassID, ref ClassName, ref ClassDescription, ref MinimumAllowedAge, ref DefaultValidityLength, ref ClassFees))
             {
-                return new clsLicenseClasses(LicenseClassID, ClassName, ClassDesciption, MinimumAllowedAge, DefaultValidityLength, ClassFees);
+                return new clsLicenseClasses(LicenseClassID, ClassName, ClassDescription, MinimumAllowedAge, DefaultValidityLength, ClassFees);
             }
             return null;
         }
