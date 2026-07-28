@@ -16,31 +16,22 @@ namespace DataAccessLayer
         {
             int count = 0;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = @"SELECT COUNT(*) 
                     FROM TestAppointments TA
                     JOIN Tests T ON T.TestAppointmentID = TA.TestAppointmentID
                     WHERE TA.LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID
                       AND T.TestResult = 1";
 
-            SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
+
                 connection.Open();
                 count = (int)command.ExecuteScalar();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
-            }
 
+            }
             return count;
         }
 
@@ -48,46 +39,32 @@ namespace DataAccessLayer
         {
             bool isFound = false;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = "SELECT * FROM LocalDrivingLicenseApplications WHERE LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID";
-        
-            SqlCommand command = new SqlCommand(query,connection);
 
-            command.Parameters.AddWithValue("LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
+
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
-
-                if (reader.Read())
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    isFound = true;
-                    ApplicationID = Convert.ToInt32(reader["ApplicationID"]);
-                    LicenseClassID = Convert.ToInt32(reader["LicenseClassID"]);
+                    if (reader.Read())
+                    {
+                        isFound = true;
+                        ApplicationID = Convert.ToInt32(reader["ApplicationID"]);
+                        LicenseClassID = Convert.ToInt32(reader["LicenseClassID"]);
+                    }
                 }
-                reader.Close();
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
-            }
-
             return isFound;
-        
         }
 
         public static bool DoesPersonHaveActiveApplicationForClass(int ApplicantPersonID, int LicenseClassID)
         {
             bool found = false;
-
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
 
             string query = @"SELECT COUNT(*)
                     FROM LocalDrivingLicenseApplications LDLA
@@ -96,23 +73,17 @@ namespace DataAccessLayer
                       AND LDLA.LicenseClassID = @LicenseClassID
                       AND A.ApplicationStatus <> 2";
 
-            SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@ApplicantPersonID", ApplicantPersonID);
-            command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@ApplicantPersonID", ApplicantPersonID);
+                command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
+
                 connection.Open();
                 int count = (int)command.ExecuteScalar();
                 found = (count > 0);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
+
             }
             return found;
         }
@@ -121,19 +92,17 @@ namespace DataAccessLayer
         {
             int LocalDrivingLicenseApplicationID = -1;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = @"INSERT INTO LocalDrivingLicenseApplications (ApplicationID, LicenseClassID)
                     VALUES (@ApplicationID, @LicenseClassID);
                     SELECT SCOPE_IDENTITY();";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
-            command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
-
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
+                command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
+
                 connection.Open();
 
                 object result = command.ExecuteScalar();
@@ -142,24 +111,14 @@ namespace DataAccessLayer
                 {
                     LocalDrivingLicenseApplicationID = insertedID;
                 }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
-            }
 
+            }
             return LocalDrivingLicenseApplicationID;
         }
 
         public static DataTable GetLocalDrivingLicenseApplicationsByFilter(string FilterColumn, string FilterValue)
         {
             DataTable dt = new DataTable();
-
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
 
             string query = $@"SELECT * FROM 
             (   
@@ -190,38 +149,30 @@ namespace DataAccessLayer
             ) AS LDLApplications
             WHERE [{FilterColumn}] LIKE @FilterValue";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            switch (FilterColumn)
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
-                case "L.D.L.AppID":
-                case "National No.":
-                    command.Parameters.AddWithValue("@FilterValue", FilterValue);
-                    break;
-                default:
-                    command.Parameters.AddWithValue("@FilterValue", "%" + FilterValue + "%");
-                    break;
-            }
+                switch (FilterColumn)
+                {
+                    case "L.D.L.AppID":
+                    case "National No.":
+                        command.Parameters.AddWithValue("@FilterValue", FilterValue);
+                        break;
+                    default:
+                        command.Parameters.AddWithValue("@FilterValue", "%" + FilterValue + "%");
+                        break;
+                }
 
-            try
-            {
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
-
-                if (reader.HasRows)
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    dt.Load(reader);
+                    if(reader.HasRows)
+                    {
+                        dt.Load(reader);
+                    }
                 }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
             }
             return dt;
         }
@@ -229,8 +180,6 @@ namespace DataAccessLayer
         public static DataTable GetAllLocalDrivingLicenseApplications()
         {
             DataTable dt = new DataTable();
-
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
 
             string query = @"SELECT 
                         LDLA.LocalDrivingLicenseApplicationID AS [L.D.L.AppID],
@@ -257,27 +206,19 @@ namespace DataAccessLayer
                         JOIN People P ON A.ApplicantPersonID = P.PersonID
                         JOIN LicenseClasses LC ON LDLA.LicenseClassID = LC.LicenseClassID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
-
-                if (reader.HasRows)
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    dt.Load(reader);
+                    if (reader.HasRows)
+                    {
+                        dt.Load(reader);
+                    }
                 }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
             }
             return dt;
         }

@@ -15,38 +15,28 @@ namespace DataAccessLayer
         {
             bool isFound = false;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = "SELECT * FROM LicenseClasses WHERE LicenseClassID = @LicenseClassID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("LicenseClassID", LicenseClassID);
-
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("LicenseClassID", LicenseClassID);
+
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
-
-                if (reader.Read())
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    isFound = true;
-                    ClassName = reader["ClassName"].ToString();
-                    ClassDescription = reader["ClassDescription"].ToString();
-                    MinimumAllowedAge = Convert.ToInt16(reader["MinimumAllowedAge"]);
-                    DefaultValidityLength = Convert.ToInt16(reader["DefaultValidityLength"]);
-                    ClassFees = Convert.ToInt16(reader["ClassFees"]);
+                    if(reader.Read())
+                    {
+                        isFound = true;
+                        ClassName = reader["ClassName"].ToString();
+                        ClassDescription = reader["ClassDescription"].ToString();
+                        MinimumAllowedAge = Convert.ToInt16(reader["MinimumAllowedAge"]);
+                        DefaultValidityLength = Convert.ToInt16(reader["DefaultValidityLength"]);
+                        ClassFees = Convert.ToInt16(reader["ClassFees"]);
+                    }
                 }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
             }
             return isFound;
         }
@@ -55,31 +45,21 @@ namespace DataAccessLayer
         {
             DataTable dt = new DataTable();
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = "SELECT LicenseClassID, ClassName FROM LicenseClasses";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
-
-                if (reader.HasRows)
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    dt.Load(reader);
+                    if (reader.HasRows)
+                    {
+                        dt.Load(reader);
+                    }
                 }
-                reader.Close();
-            }   
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
             }
             return dt;
         }

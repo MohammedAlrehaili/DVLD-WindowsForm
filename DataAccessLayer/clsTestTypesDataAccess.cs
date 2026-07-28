@@ -15,32 +15,22 @@ namespace DataAccessLayer
         {
             int rowsAffected = 0;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = "UPDATE TestTypes SET TestTypeTitle = @TestTypeTitle, TestTypeDescription = @TestTypeDescription, TestTypeFees = @TestTypeFees WHERE TestTypeID = @TestTypeID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("@TestTypeID", TestTypeID);
-            command.Parameters.AddWithValue("@TestTypeTitle", TestTypeTitle);
-            command.Parameters.AddWithValue("@TestTypeDescription", TestTypeDescription);
-            command.Parameters.AddWithValue("@TestTypeFees", TestTypeFees);
-
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@TestTypeID", TestTypeID);
+                command.Parameters.AddWithValue("@TestTypeTitle", TestTypeTitle);
+                command.Parameters.AddWithValue("@TestTypeDescription", TestTypeDescription);
+                command.Parameters.AddWithValue("@TestTypeFees", TestTypeFees);
+
                 connection.Open();
 
                 rowsAffected = command.ExecuteNonQuery();
+            }
 
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
-            }
             return rowsAffected > 0;
         }
 
@@ -48,37 +38,26 @@ namespace DataAccessLayer
         {
             bool isFound = false;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = "SELECT * FROM TestTypes WHERE TestTypeID = @TestTypeID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("@TestTypeID", TestTypeID);
-
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@TestTypeID", TestTypeID);
+
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
-
-                if (reader.Read())
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    isFound = true;
-
-                    TestTypeTitle = reader["TestTypeTitle"].ToString();
-                    TestTypeDescription = reader["TestTypeDescription"].ToString();
-                    TestTypeFees = Convert.ToInt16(reader["TestTypeFees"]);
+                    if (reader.Read())
+                    {
+                        isFound = true;
+                        TestTypeTitle = reader["TestTypeTitle"].ToString();
+                        TestTypeDescription = reader["TestTypeDescription"].ToString();
+                        TestTypeFees = Convert.ToInt16(reader["TestTypeFees"]);
+                    }
                 }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
             }
             return isFound;
         }
@@ -87,32 +66,23 @@ namespace DataAccessLayer
         {
             DataTable table = new DataTable();
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = "SELECT * FROM TestTypes";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
 
-                if (reader.HasRows)
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    table.Load(reader);
+                    if (reader.HasRows)
+                    {
+                        table.Load(reader);
+                    }
                 }
-                reader.Close();
+                return table;
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
-            }
-            return table;
         }
     }
 }

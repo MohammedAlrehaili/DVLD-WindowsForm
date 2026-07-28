@@ -14,26 +14,22 @@ namespace DataAccessLayer
         public static string GetCountryNameByID(int CountryID)
         {
             string countryName = "";
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
+
             string query = "SELECT CountryName FROM Countries WHERE CountryID = @CountryID";
-            SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@CountryID", CountryID);
-            try
+
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
+
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@CountryID", CountryID);
+
                 connection.Open();
                 object result = command.ExecuteScalar();
                 if (result != null)
                 {
                     countryName = result.ToString();
                 }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
+
             }
             return countryName;
         }
@@ -42,32 +38,22 @@ namespace DataAccessLayer
         {
             DataTable dt = new DataTable();
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = "SELECT CountryID, CountryName FROM Countries";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
-
-                if (reader.HasRows)
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    dt.Load(reader);
+                    if(reader.HasRows)
+                    {
+                        dt.Load(reader);
+                    }
                 }
-                reader.Close();
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
-            } 
             return dt;
         }
     }

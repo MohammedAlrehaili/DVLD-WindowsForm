@@ -14,28 +14,18 @@ namespace DataAccessLayer
         public static bool DeleteUser(int UserID)
         {
             int rowsAffected = 0;
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
 
             string query = "DELETE FROM Users WHERE UserID = @UserID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("@UserID", UserID);
-
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@UserID", UserID);
+
                 connection.Open();
 
                 rowsAffected = command.ExecuteNonQuery();
-
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
             }
             return rowsAffected > 0;
         }
@@ -44,39 +34,28 @@ namespace DataAccessLayer
         {
             bool isFound = false;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = "SELECT * FROM Users WHERE UserID = @UserID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("@UserID", UserID);
 
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@UserID", UserID);
+
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
-
-                if (reader.Read())
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    isFound = true;
-
-                    PersonID = Convert.ToInt32(reader["PersonID"]);
-                    UserName = reader["UserName"].ToString();
-                    Password = reader["Password"].ToString();
-                    IsActive = Convert.ToBoolean(reader["IsActive"]);
-
+                    if (reader.Read())
+                    {
+                        isFound = true;
+                        PersonID = Convert.ToInt32(reader["PersonID"]);
+                        UserName = reader["UserName"].ToString();
+                        Password = reader["Password"].ToString();
+                        IsActive = Convert.ToBoolean(reader["IsActive"]);
+                    }
                 }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
             }
             return isFound;
         }
@@ -85,28 +64,20 @@ namespace DataAccessLayer
         {
             int rowsAffected = 0;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = @"UPDATE Users SET Password = @Password WHERE UserID = @UserID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("@UserID", UserID);
-            command.Parameters.AddWithValue("@Password", clsDataAccessSettings.HashPassword(NewPassword));
-
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@UserID", UserID);
+                command.Parameters.AddWithValue("@Password", clsDataAccessSettings.HashPassword(NewPassword));
+
                 connection.Open();
 
                 rowsAffected = command.ExecuteNonQuery();
             }
-            catch (Exception ex) {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
-            }
+
             return rowsAffected > 0;
         }
 
@@ -114,41 +85,30 @@ namespace DataAccessLayer
         {
             int rowsAffected = 0;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
 
             string query = @"UPDATE Users SET PersonID = @PersonID, UserName = @UserName, 
                      Password = @Password, IsActive = @IsActive
                      WHERE UserID = @UserID";
 
-            SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@UserID", UserID);
-            command.Parameters.AddWithValue("@PersonID", PersonID);
-            command.Parameters.AddWithValue("@UserName", UserName);
-            command.Parameters.AddWithValue("@Password", Password);
-            command.Parameters.AddWithValue("@IsActive", IsActive);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@UserID", UserID);
+                command.Parameters.AddWithValue("@PersonID", PersonID);
+                command.Parameters.AddWithValue("@UserName", UserName);
+                command.Parameters.AddWithValue("@Password", Password);
+                command.Parameters.AddWithValue("@IsActive", IsActive);
+
                 connection.Open();
                 rowsAffected = command.ExecuteNonQuery();
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
-            }
-
             return (rowsAffected > 0);
         }
 
         public static DataTable GetUsersByFilter(string filterColumn, string filterValue)
         {
             DataTable dt = new DataTable();
-
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
 
             string query = $@"SELECT * FROM (
                             SELECT u.UserID, u.PersonID,
@@ -160,37 +120,32 @@ namespace DataAccessLayer
                        ) AS UsersWithNames
                        WHERE {filterColumn} LIKE @FilterValue";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            switch (filterColumn)
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
-                case "UserID":
-                case "PersonID":
-                case "IsActive":
-                    command.Parameters.AddWithValue("@FilterValue", filterValue);
-                    break;
-                default:
-                    command.Parameters.AddWithValue("@FilterValue", "%" + filterValue + "%");
-                    break;
-            }
+                switch (filterColumn)
+                {
+                    case "UserID":
+                    case "PersonID":
+                    case "IsActive":
+                        command.Parameters.AddWithValue("@FilterValue", filterValue);
+                        break;
+                    default:
+                        command.Parameters.AddWithValue("@FilterValue", "%" + filterValue + "%");
+                        break;
+                }
 
-            try
-            {
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.HasRows)
-                    dt.Load(reader);
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
-            }
 
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if(reader.HasRows)
+                    {
+                        dt.Load(reader);
+                    }
+                }
+            }
             return dt;
         }
 
@@ -198,29 +153,19 @@ namespace DataAccessLayer
         {
             bool isFound = false;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = "SELECT COUNT(*) FROM Users WHERE PersonID = @PersonID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("@PersonID", PersonID);
 
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@PersonID", PersonID);
+
                 connection.Open();
 
                 int count = (int)command.ExecuteScalar();
                 isFound = count > 0;
-  
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
             }
             return isFound;
         }
@@ -229,21 +174,20 @@ namespace DataAccessLayer
         {
             int UserID = -1;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = @"INSERT INTO Users (PersonID, UserName, Password, IsActive) VALUES
                             (@PersonID, @UserName, @Password, @isActive);
                             SELECT SCOPE_IDENTITY();";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("@PersonID", PersonID);
-            command.Parameters.AddWithValue("@UserName", UserName);
-            command.Parameters.AddWithValue("@Password", clsDataAccessSettings.HashPassword(Password));
-            command.Parameters.AddWithValue("@isActive", isActive);
 
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@PersonID", PersonID);
+                command.Parameters.AddWithValue("@UserName", UserName);
+                command.Parameters.AddWithValue("@Password", clsDataAccessSettings.HashPassword(Password));
+                command.Parameters.AddWithValue("@isActive", isActive);
+
                 connection.Open();
 
                 object result = command.ExecuteScalar();
@@ -253,15 +197,6 @@ namespace DataAccessLayer
                     UserID = insertedID;
                 }
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
-            }
-
             return UserID;
 
         }
@@ -270,8 +205,6 @@ namespace DataAccessLayer
         {
             DataTable dt = new DataTable();
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = @"SELECT u.UserID, u.PersonID,
                             (p.FirstName + ' ' + p.SecondName + ' ' + 
                              ISNULL(p.ThirdName + ' ', '') + p.LastName) AS FullName,
@@ -279,28 +212,22 @@ namespace DataAccessLayer
                      FROM Users u
                      JOIN People p ON u.PersonID = p.PersonID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
 
-                if (reader.HasRows)
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    dt.Load(reader);
+                    if (reader.HasRows)
+                    {
+                        dt.Load(reader);
+                    }
+                    reader.Close();
                 }
-                reader.Close();
+                return dt;
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
-            }
-            return dt;
         }
 
 
@@ -308,38 +235,29 @@ namespace DataAccessLayer
         {
             bool isFound = false;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = "SELECT * FROM Users WHERE UserName = @Username AND Password = @Password";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("@Username", username);
-            command.Parameters.AddWithValue("@Password", clsDataAccessSettings.HashPassword(password));
-            
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+
+                command.Parameters.AddWithValue("@Username", username);
+                command.Parameters.AddWithValue("@Password", clsDataAccessSettings.HashPassword(password));
+
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
-                if (reader.Read())
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    isFound = true;
-                    UserID = Convert.ToInt32(reader["UserID"]);
-                    PersonID = Convert.ToInt32(reader["PersonID"]);
-                    isActive = Convert.ToBoolean(reader["IsActive"]);
+                    if (reader.Read())
+                    {
+                        isFound = true;
+                        UserID = Convert.ToInt32(reader["UserID"]);
+                        PersonID = Convert.ToInt32(reader["PersonID"]);
+                        isActive = Convert.ToBoolean(reader["IsActive"]);
+                    }
                 }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
             }
             return isFound;
         }
-
     }
 }

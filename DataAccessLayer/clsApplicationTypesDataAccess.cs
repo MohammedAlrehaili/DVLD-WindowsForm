@@ -15,35 +15,25 @@ namespace DataAccessLayer
         {
             bool isFound = false;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = "SELECT * FROM ApplicationTypes WHERE ApplicationTypeID = @ApplicationTypeID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("@ApplicationTypeID", ApplicationTypeID);
-
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@ApplicationTypeID", ApplicationTypeID);
+
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
 
-                if (reader.Read())
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    isFound = true;
-                    ApplicationTypeTitle = reader["ApplicationTypeTitle"].ToString();
-                    ApplicationFees = Convert.ToInt16(reader["ApplicationFees"]);
+                    if (reader.Read())
+                    {
+                        isFound = true;
+                        ApplicationTypeTitle = reader["ApplicationTypeTitle"].ToString();
+                        ApplicationFees = Convert.ToInt16(reader["ApplicationFees"]);
+                    }
                 }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                isFound = false;
-                throw;
-            }
-            finally
-            {
-                connection.Close();
             }
             return isFound;
         }
@@ -52,30 +42,19 @@ namespace DataAccessLayer
         {
             int rowsAffected = 0;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = "UPDATE ApplicationTypes SET ApplicationTypeTitle = @ApplicationTypeTitle, ApplicationFees = @ApplicationFees WHERE ApplicationTypeID = @ApplicationTypeID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("@ApplicationTypeID", ApplicationTypeID);
-            command.Parameters.AddWithValue("@ApplicationTypeTitle", ApplicationTypeTitle);
-            command.Parameters.AddWithValue("@ApplicationFees", ApplicationFees);
-
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@ApplicationTypeID", ApplicationTypeID);
+                command.Parameters.AddWithValue("@ApplicationTypeTitle", ApplicationTypeTitle);
+                command.Parameters.AddWithValue("@ApplicationFees", ApplicationFees);
+
                 connection.Open();
 
                 rowsAffected = command.ExecuteNonQuery();
-
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
             }
             return rowsAffected > 0;
         }
@@ -84,31 +63,21 @@ namespace DataAccessLayer
         {
             DataTable dt = new DataTable();
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = "SELECT * FROM ApplicationTypes";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
                 connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
-
-                if (reader.HasRows)
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    dt.Load(reader);
+                    if (reader.HasRows)
+                    {
+                        dt.Load(reader);
+                    }
                 }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
             }
             return dt;
         }

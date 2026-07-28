@@ -18,39 +18,30 @@ namespace DataAccessLayer
         {
             bool isFound = false;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = "SELECT * FROM Applications WHERE ApplicationID = @ApplicationID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
-
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
+
                 connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
 
-                if (reader.Read())
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    isFound = true;
-                    ApplicantPersonID = Convert.ToInt32(reader["ApplicantPersonID"]);
-                    ApplicationDate = Convert.ToDateTime(reader["ApplicationDate"]);
-                    ApplicationTypeID = Convert.ToInt32(reader["ApplicationTypeID"]);
-                    ApplicationStatus = Convert.ToByte(reader["ApplicationStatus"]);
-                    LastStatusDate = Convert.ToDateTime(reader["LastStatusDate"]);
-                    PaidFees = Convert.ToDecimal(reader["PaidFees"]);
-                    CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
+                    if (reader.Read())
+                    {
+                        isFound = true;
+                        ApplicantPersonID = Convert.ToInt32(reader["ApplicantPersonID"]);
+                        ApplicationDate = Convert.ToDateTime(reader["ApplicationDate"]);
+                        ApplicationTypeID = Convert.ToInt32(reader["ApplicationTypeID"]);
+                        ApplicationStatus = Convert.ToByte(reader["ApplicationStatus"]);
+                        LastStatusDate = Convert.ToDateTime(reader["LastStatusDate"]);
+                        PaidFees = Convert.ToDecimal(reader["PaidFees"]);
+                        CreatedByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
+                    }
                 }
-                reader.Close();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
             }
             return isFound;
         }
@@ -59,32 +50,21 @@ namespace DataAccessLayer
         {
             int rowsAffected = 0;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = @"UPDATE Applications 
                     SET ApplicationStatus = @ApplicationStatus, LastStatusDate = @LastStatusDate
                     WHERE ApplicationID = @ApplicationID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
-            command.Parameters.AddWithValue("@ApplicationStatus", NewStatus);
-            command.Parameters.AddWithValue("@LastStatusDate", DateTime.Now);
-
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
+                command.Parameters.AddWithValue("@ApplicationStatus", NewStatus);
+                command.Parameters.AddWithValue("@LastStatusDate", DateTime.Now);
+
                 connection.Open();
                 rowsAffected = command.ExecuteNonQuery();
             }
-            catch (Exception ex)
-            {
-                throw;       
-            }
-            finally
-            {
-                connection.Close();
-            }
-
             return (rowsAffected > 0);
         }
 
@@ -93,26 +73,24 @@ namespace DataAccessLayer
         {
             int ApplicationID = -1;
 
-            SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString);
-
             string query = @"INSERT INTO Applications (ApplicantPersonID, ApplicationDate, ApplicationTypeID,
                     ApplicationStatus, LastStatusDate, PaidFees, CreatedByUserID)
                     VALUES (@ApplicantPersonID, @ApplicationDate, @ApplicationTypeID,
                     @ApplicationStatus, @LastStatusDate, @PaidFees, @CreatedByUserID);
                     SELECT SCOPE_IDENTITY();";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
 
-            command.Parameters.AddWithValue("@ApplicantPersonID", ApplicantPersonID);
-            command.Parameters.AddWithValue("@ApplicationDate", ApplicationDate);
-            command.Parameters.AddWithValue("@ApplicationTypeID", ApplicationTypeID);
-            command.Parameters.AddWithValue("@ApplicationStatus", ApplicationStatus);
-            command.Parameters.AddWithValue("@LastStatusDate", LastStatusDate);
-            command.Parameters.AddWithValue("@PaidFees", PaidFees);
-            command.Parameters.AddWithValue("@CreatedByUserID", CreatedByUserID);
-
-            try
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
+                command.Parameters.AddWithValue("@ApplicantPersonID", ApplicantPersonID);
+                command.Parameters.AddWithValue("@ApplicationDate", ApplicationDate);
+                command.Parameters.AddWithValue("@ApplicationTypeID", ApplicationTypeID);
+                command.Parameters.AddWithValue("@ApplicationStatus", ApplicationStatus);
+                command.Parameters.AddWithValue("@LastStatusDate", LastStatusDate);
+                command.Parameters.AddWithValue("@PaidFees", PaidFees);
+                command.Parameters.AddWithValue("@CreatedByUserID", CreatedByUserID);
+
                 connection.Open();
 
                 object result = command.ExecuteScalar();
@@ -122,17 +100,7 @@ namespace DataAccessLayer
                     ApplicationID = insertedID;
                 }
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-                connection.Close();
-            }
-
             return ApplicationID;
         }
-
     }
 }
