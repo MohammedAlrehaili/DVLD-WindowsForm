@@ -69,5 +69,24 @@ namespace BussinessLayer
         {
             return clsLocalDrivingLicenseApplicationsDataAccess.GetAllLocalDrivingLicenseApplications();
         }
+
+        public static bool DeleteLocalDrivingLicenseApplication(int LocalDrivingLicenseApplicationID)
+        {
+            clsLocalDrivingLicenseApplications app = GetLocalDrivingLicenseApplicationByID(LocalDrivingLicenseApplicationID);
+
+            if (app == null)
+                return false;
+
+            clsApplications baseApp = clsApplications.FindByApplicationID(app.ApplicationID);
+
+            if (baseApp == null)
+                return false;
+
+            if (baseApp.ApplicationStatus != (byte)clsApplications.enApplicationStatus.New)
+                return false;
+
+            return clsLocalDrivingLicenseApplicationsDataAccess.DeleteLocalDrivingLicenseApplication(
+                LocalDrivingLicenseApplicationID, app.ApplicationID);
+        }
     }
 }

@@ -222,5 +222,47 @@ namespace DataAccessLayer
             }
             return dt;
         }
+
+        public static bool DeleteLocalDrivingLicenseApplication(int LocalDrivingLicenseApplicationID, int ApplicationID)
+        {
+            string query1 = "DELETE FROM TestAppointments WHERE LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID";
+            string query2 = "DELETE FROM LocalDrivingLicenseApplications WHERE LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID";
+            string query3 = "DELETE FROM Applications WHERE ApplicationID = @ApplicationID";
+
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
+            {
+                connection.Open();
+                SqlTransaction transaction = connection.BeginTransaction();
+
+                try
+                {
+                    using (SqlCommand cmd1 = new SqlCommand(query1, connection, transaction))
+                    {
+                        cmd1.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
+                        cmd1.ExecuteNonQuery();
+                    }
+
+                    using (SqlCommand cmd2 = new SqlCommand(query2, connection, transaction))
+                    {
+                        cmd2.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
+                        cmd2.ExecuteNonQuery();
+                    }
+
+                    using (SqlCommand cmd3 = new SqlCommand(query3, connection, transaction))
+                    {
+                        cmd3.Parameters.AddWithValue("@ApplicationID", ApplicationID);
+                        cmd3.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+                    return true;
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    return false;
+                }
+            }
+        }
     }
 }

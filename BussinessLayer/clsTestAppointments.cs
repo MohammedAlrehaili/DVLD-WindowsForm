@@ -53,11 +53,29 @@ namespace BussinessLayer
             return (this.TestAppointmentID != -1);
         }
 
-
+        public static bool IsAppointmentExists(int TestTypeID, int LocalDrivingLicenseApplicationID)
+        {
+            return clsTestAppointmentsDataAccess.IsAppointmentExists(TestTypeID, LocalDrivingLicenseApplicationID);
+        }
 
         public static DataTable GetTestAppointmentsByLDLAppID(int LocalDrivingLicenseApplicationID)
         {
             return clsTestAppointmentsDataAccess.GetTestAppointmentsByLDLAppID(LocalDrivingLicenseApplicationID);
+        }
+
+        public static clsTestAppointments FindByID(int TestAppointmentID)
+        {
+            int localDrivingLicenseApplicationID = -1;
+            int testTypeID = -1;
+            DateTime appointmentDate = DateTime.Today;
+            short paidFees = 0;
+            bool isLocked = false;
+            int createdByUserID = -1;
+            if (clsTestAppointmentsDataAccess.GetTestAppointmentByID(TestAppointmentID, ref testTypeID, ref localDrivingLicenseApplicationID, ref appointmentDate, ref paidFees, ref isLocked, ref createdByUserID))
+            {
+                return new clsTestAppointments(TestAppointmentID, testTypeID, localDrivingLicenseApplicationID, appointmentDate, paidFees, createdByUserID, isLocked);
+            }
+            return null;
         }
 
         public bool Save()
@@ -76,7 +94,7 @@ namespace BussinessLayer
                         return false;
                     }
                 case enMode.Update:
-                    break;
+                    return clsTestAppointmentsDataAccess.UpdateTestAppointments(this.TestAppointmentID, this.AppointmentDate);
             }
             return false;
         }

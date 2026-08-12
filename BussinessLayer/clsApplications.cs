@@ -90,5 +90,15 @@ namespace BussinessLayer
 
             return clsApplicationsDataAccess.UpdateApplicationStatus(ApplicationID, (byte)enApplicationStatus.Cancelled);
         }
+
+        public static bool CompleteApplication(int ApplicationID)
+        {
+            clsApplications app = FindByApplicationID(ApplicationID);
+            if (app == null)
+                return false;
+            if (app.ApplicationStatus == (byte)enApplicationStatus.Cancelled)
+                return false;
+            return clsApplicationsDataAccess.UpdateApplicationStatus(ApplicationID, (byte)enApplicationStatus.Completed);
+        }
     }
 }

@@ -153,5 +153,36 @@ namespace PresentationLayer
             frmVisionTestAppointments frm = new frmVisionTestAppointments((int)dgvLicenseApplications.CurrentRow.Cells["ApplicationID"].Value, (int)dgvLicenseApplications.CurrentRow.Cells["L.D.L.AppID"].Value);
             frm.ShowDialog();
         }
+
+        private void deleteApplicationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dgvLicenseApplications.CurrentRow == null) return;
+
+            int ldlAppID = (int)dgvLicenseApplications.CurrentRow.Cells["L.D.L.AppID"].Value;
+
+            DialogResult result = MessageBox.Show("Are you sure you want to delete this application? This cannot be undone.",
+                                                  "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result != DialogResult.Yes) return;
+
+            try
+            {
+                if (clsLocalDrivingLicenseApplications.DeleteLocalDrivingLicenseApplication(ldlAppID))
+                {
+                    MessageBox.Show("Application deleted successfully!", "Success",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadLocalLicenseApplications();
+                }
+                else
+                {
+                    MessageBox.Show("Cannot delete this application. Only New applications can be deleted.",
+                                    "Delete Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

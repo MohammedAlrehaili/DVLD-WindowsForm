@@ -11,6 +11,25 @@ namespace DataAccessLayer
     public class clsTestAppointmentsDataAccess
     {
 
+        public static bool IsAppointmentExists(int TestTypeID, int LocalDrivingLicenseApplicationID)
+        {
+            bool exists = false;
+
+            string query = "SELECT COUNT(*) FROM TestAppointments WHERE LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID AND TestTypeID = @TestTypeID";
+            
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
+                command.Parameters.AddWithValue("@TestTypeID", TestTypeID);
+                connection.Open();
+                int count = (int)command.ExecuteScalar();
+                exists = count > 0;
+            }
+            return exists;
+        }
+
         public static DataTable GetTestAppointmentsByLDLAppID(int LocalDrivingLicenseApplicationID)
         {
             DataTable dt = new DataTable();
@@ -34,6 +53,36 @@ namespace DataAccessLayer
                 }
             }
             return dt;
+        }
+
+        public static bool GetTestAppointmentByID(int TestAppointmentID, ref int testTypeID,
+        ref int localDrivingLicenseApplicationID, ref DateTime appointmentDate, ref short paidFees, ref bool isLocked, ref int createdByUserID)
+        {
+            bool isFound = false;
+
+            string query = "SELECT * FROM TestAppointments WHERE TestAppointmentID = @TestAppointmentID";
+
+            using (SqlConnection connection = new SqlConnection(clsDataAccessSettings.ConnectionString))
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@TestAppointmentID", TestAppointmentID);
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        isFound = true;
+                        localDrivingLicenseApplicationID = Convert.ToInt32(reader["LocalDrivingLicenseApplicationID"]);
+                        testTypeID = Convert.ToInt32(reader["TestTypeID"]);
+                        appointmentDate = Convert.ToDateTime(reader["AppointmentDate"]);
+                        paidFees = Convert.ToInt16(reader["PaidFees"]);
+                        isLocked = Convert.ToBoolean(reader["IsLocked"]);
+                        createdByUserID = Convert.ToInt32(reader["CreatedByUserID"]);
+                    }
+                }
+            }
+            return isFound;
         }
 
         public static bool UpdateTestAppointments(int TestAppointmentID, DateTime AppointmentDate)

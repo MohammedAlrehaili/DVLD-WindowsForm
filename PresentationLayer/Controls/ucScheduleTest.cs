@@ -37,6 +37,21 @@ namespace PresentationLayer
             }
         }
 
+        public clsTestAppointments TestAppointment
+        {
+            get { return _TestAppointment; }
+            set
+            {
+                _TestAppointment = value;
+                if (_TestAppointment != null)
+                {
+                    dtpDate.Value = _TestAppointment.AppointmentDate;
+                    btnSave.Text = "Update";
+                }
+            }
+        }
+        private clsTestAppointments _TestAppointment = null;
+
         public void FillScheduleTestData()
         {
             if (_App == null) return;
@@ -63,29 +78,47 @@ namespace PresentationLayer
                 return;
             }
 
-            clsTestAppointments testApp = new clsTestAppointments();
-
-            testApp.TestTypeID = 1;
-            testApp.LocalDrivingLicenseApplicationID = _LDLApp.LocalDrivingLicenseApplicationID;
-            testApp.AppointmentDate = dtpDate.Value;
-            testApp.PaidFees = _TestFees;
-            testApp.CreatedByUserID = _App.CreatedByUserID;
-            testApp.IsLocked = true;
-
-            try
+            if (_TestAppointment != null)
             {
-                if (testApp.Save())
+                _TestAppointment.AppointmentDate = dtpDate.Value;
+                try
                 {
-                    MessageBox.Show("Data Saved Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (_TestAppointment.Save())
+                        MessageBox.Show("Appointment updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        MessageBox.Show("Update failed.", "Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Data Failed To Save", "Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error in DataBase", "Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Error in DataBase", "Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                clsTestAppointments testApp = new clsTestAppointments();
+
+                testApp.TestTypeID = 1;
+                testApp.LocalDrivingLicenseApplicationID = _LDLApp.LocalDrivingLicenseApplicationID;
+                testApp.AppointmentDate = dtpDate.Value;
+                testApp.PaidFees = _TestFees;
+                testApp.CreatedByUserID = _App.CreatedByUserID;
+                testApp.IsLocked = true;
+
+                try
+                {
+                    if (testApp.Save())
+                    {
+                        MessageBox.Show("Data Saved Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data Failed To Save", "Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error in DataBase", "Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

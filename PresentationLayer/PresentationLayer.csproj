@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ucTakeTest.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ucTakeTest.Designer.cs">
+      <DependentUpon>ucTakeTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\frmAddPerson.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,6 +126,12 @@
     <Compile Include="Forms\frmPersonDetails.Designer.cs">
       <DependentUpon>frmPersonDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="TestAppointments\frmTakeTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TestAppointments\frmTakeTest.Designer.cs">
+      <DependentUpon>frmTakeTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="TestAppointments\frmVisionScheduleTest.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -176,6 +188,9 @@
     <Compile Include="Controls\ucScheduleTest.Designer.cs">
       <DependentUpon>ucScheduleTest.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\ucTakeTest.resx">
+      <DependentUpon>ucTakeTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmAddPerson.resx">
       <DependentUpon>frmAddPerson.cs</DependentUpon>
     </EmbeddedResource>
@@ -211,6 +226,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmPersonDetails.resx">
       <DependentUpon>frmPersonDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestAppointments\frmTakeTest.resx">
+      <DependentUpon>frmTakeTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TestAppointments\frmVisionScheduleTest.resx">
       <DependentUpon>frmVisionScheduleTest.cs</DependentUpon>

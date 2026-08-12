@@ -1,4 +1,5 @@
 ﻿using BussinessLayer;
+using PresentationLayer.TestAppointments;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,6 +32,8 @@ namespace PresentationLayer
 
         private void _FormatGrid()
         {
+
+            if (dgvTestAppoitnments.Columns["TestTypeID"] == null) return;
 
             dgvTestAppoitnments.Columns["TestTypeID"].Visible = false;
             dgvTestAppoitnments.Columns["LocalDrivingLicenseApplicationID"].Visible = false;
@@ -70,14 +73,26 @@ namespace PresentationLayer
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+
+            if(clsTestAppointments.IsAppointmentExists(1, _LDLAppID))
+            {
+                MessageBox.Show("Person Already have an active appointment for this test. You cannot add new appointment", "Not Allowed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             frmVisionScheduleTest frm = new frmVisionScheduleTest(_ApplicationID,_LDLAppID);
             frm.ShowDialog();
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmVisionScheduleTest frm = new frmVisionScheduleTest(_ApplicationID, _LDLAppID);
+            if (dgvTestAppoitnments.CurrentRow == null) return;
+
+            int testAppointmentID = (int)dgvTestAppoitnments.CurrentRow.Cells["TestAppointmentID"].Value;
+
+            frmVisionScheduleTest frm = new frmVisionScheduleTest(_ApplicationID, _LDLAppID, testAppointmentID);
             frm.ShowDialog();
+            LoadAppointments();
         }
     }
 }
